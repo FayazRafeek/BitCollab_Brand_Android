@@ -1,0 +1,72 @@
+{
+  "version": "1",
+  "cognitoConfig": {
+    "identityPoolName": "bitcollabv17df6f1ae_identitypool_7df6f1ae",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "bitcol7df6f1ae",
+    "userPoolName": "bitcollabv17df6f1ae_userpool_7df6f1ae",
+    "autoVerifiedAttributes": [
+      "email"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+      "SMS Text Message"
+    ],
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [],
+    "requiredAttributes": [
+      "email"
+    ],
+    "aliasAttributes": [],
+    "userpoolClientGenerateSecret": false,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientWriteAttributes": [
+      "email"
+    ],
+    "userpoolClientReadAttributes": [
+      "email"
+    ],
+    "userpoolClientLambdaRole": "bitcol7df6f1ae_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": true,
+    "sharedId": "7df6f1ae",
+    "resourceName": "bitcollabv17df6f1ae",
+    "authSelections": "identityPoolAndUserPool",
+    "useDefault": "manual",
+    "usernameAttributes": [
+      "email"
+    ],
+    "userPoolGroupList": [],
+    "serviceName": "Cognito",
+    "usernameCaseSensitive": false,
+    "useEnabledMfas": true,
+    "authRoleArn": {
+      "Fn::GetAtt": [
+        "AuthRole",
+        "Arn"
+      ]
+    },
+    "unauthRoleArn": {
+      "Fn::GetAtt": [
+        "UnauthRole",
+        "Arn"
+      ]
+    },
+    "breakCircularDependency": true,
+    "dependsOn": [],
+    "hostedUI": false,
+    "authProviders": [],
+    "thirdPartyAuth": false,
+    "userPoolGroups": false,
+    "adminQueries": false,
+    "triggers": {},
+    "parentStack": {
+      "Ref": "AWS::StackId"
+    },
+    "permissions": []
+  }
+}

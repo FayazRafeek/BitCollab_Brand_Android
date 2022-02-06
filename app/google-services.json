@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "303001414107",
+    "project_id": "bit-collab",
+    "storage_bucket": "bit-collab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303001414107:android:a25b5574a1273c1a051ffe",
+        "android_client_info": {
+          "package_name": "com.fyzanz.bitcollab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303001414107-uroidujofnp068pp97h73ifkpaav4r3v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIsCLUYP3Mvwi-CSVafaiTzmDstnaZ480"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303001414107-uroidujofnp068pp97h73ifkpaav4r3v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

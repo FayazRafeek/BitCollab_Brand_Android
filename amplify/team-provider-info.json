@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-bitcollabv1-dev-122613-authRole",
+      "UnauthRoleArn": "arn:aws:iam::779362647151:role/amplify-bitcollabv1-dev-122613-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::779362647151:role/amplify-bitcollabv1-dev-122613-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-bitcollabv1-dev-122613-deployment",
+      "UnauthRoleName": "amplify-bitcollabv1-dev-122613-unauthRole",
+      "StackName": "amplify-bitcollabv1-dev-122613",
+      "StackId": "arn:aws:cloudformation:us-east-1:779362647151:stack/amplify-bitcollabv1-dev-122613/bdacbbf0-7ce2-11ec-a46f-0e774d02f957",
+      "AmplifyAppId": "d2k5sgwd084pug"
+    },
+    "categories": {
+      "auth": {
+        "bitcollabv17df6f1ae": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Bit Collab</string>
+    <string name="google_client_id">303001414107-tsrebvf4ifj30j8bl1sikffj9fc07sto.apps.googleusercontent.com</string>
+    <string name="google_client_id_2">303001414107-uroidujofnp068pp97h73ifkpaav4r3v.apps.googleusercontent.com</string>
+    
+    <string name="AUTH_PREF_FILE">com.fyzanz.bitcollab.AUTH_PREF_FILE</string>
+    <string name="IS_LOGIN_KEY">IS_AUTHENTICATED</string>
+</resources>
