@@ -2,36 +2,37 @@ package com.fyzanz.bitcollab.View.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.transition.Explode;
+import android.transition.TransitionInflater;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.view.Window;
 
+import com.fyzanz.bitcollab.Model.Data.Category;
+import com.fyzanz.bitcollab.Model.Data.Influencer;
 import com.fyzanz.bitcollab.R;
-import com.fyzanz.bitcollab.View.Fragments.FavoriteFragment;
-import com.fyzanz.bitcollab.View.Fragments.HomeFragment;
-import com.fyzanz.bitcollab.View.Fragments.LoginFragment;
-import com.fyzanz.bitcollab.View.Fragments.MessageFragment;
-import com.fyzanz.bitcollab.View.Fragments.ProfileFragment;
-import com.fyzanz.bitcollab.View.Fragments.RegisterFragment;
+import com.fyzanz.bitcollab.View.Adapter.CategoryAdapter;
+import com.fyzanz.bitcollab.View.Adapter.InfluencerListAdapter;
+import com.fyzanz.bitcollab.View.Adapter.PopularInfAdapter;
 import com.fyzanz.bitcollab.ViewModel.MainViewModel;
 import com.fyzanz.bitcollab.databinding.ActivityMainBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.shape.CornerFamily;
-import com.google.android.material.shape.MaterialShapeDrawable;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements CategoryAdapter.OnCategoryClick, InfluencerListAdapter.OnInfluencerClick {
 
     private static final String TAG = "333";
 
@@ -42,67 +43,60 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setUpBottNavigation();
+        setupNavigationDrawer();
 
-        mainViewModel.getCurrentScreen().observe(this, new Observer<String>() {
+        setupCategory();
+
+        setUpPopularInf();
+    }
+
+    CategoryAdapter categoryAdapter;
+    void setupCategory(){
+        categoryAdapter = new CategoryAdapter(this);
+        binding.categoryRecycler.setAdapter(categoryAdapter);
+        binding.categoryRecycler.setLayoutManager(new GridLayoutManager(this,2));
+    }
+
+
+    PopularInfAdapter popularInfAdapter;
+    void setUpPopularInf(){
+        if(popularInfAdapter == null){
+            popularInfAdapter = new PopularInfAdapter("HOME",this);
+            binding.homePopRecycler.setAdapter(popularInfAdapter);
+            binding.homePopRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL,false));
+        }
+        List<Influencer> demoList = new ArrayList<>();
+        demoList.add(new Influencer("1","Suzean","Mark"));
+        demoList.add(new Influencer("1","Bell","Fort"));
+        demoList.add(new Influencer("1","Romelu","Lukaku"));
+        demoList.add(new Influencer("1","Cris","Evans"));
+
+        popularInfAdapter.updateAdapter(demoList);
+    }
+
+
+    void setupNavigationDrawer(){
+
+        binding.menuToggle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(String s) {
-                handleScreenChange(s);
+            public void onClick(View view) {
+                binding.mainDrawer.openDrawer(GravityCompat.START);
             }
         });
-    }
 
-
-
-    //Screen change handle
-    HomeFragment homeFragment;
-    void handleScreenChange(String s){
-
-        Fragment fragment = null;
-
-        switch (s){
-            case "MESSAGE" : fragment = new MessageFragment(); break;
-            case "PROFILE" : fragment = new ProfileFragment(); break;
-            case "FAVORITE" : fragment = new FavoriteFragment(); break;
-            default :
-                if(homeFragment == null)
-                    homeFragment = new HomeFragment();
-                fragment = homeFragment;
-        }
-
-        if(fragment != null)
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(binding.mainFragContainer.getId(),fragment, null)
-                .commit();
-
-    }
-
-
-    void setUpBottNavigation(){
-        MaterialShapeDrawable shapeDrawable = (MaterialShapeDrawable) binding.bottomNavigation.getBackground();
-//        Float cornerRadius = getResources().getDimension(R.dimen.bottom_nav_corner);
-        shapeDrawable.setShapeAppearanceModel(
-                shapeDrawable.getShapeAppearanceModel()
-                        .toBuilder()
-                        .setTopLeftCorner(CornerFamily.ROUNDED,50)
-                        .setTopRightCorner(CornerFamily.ROUNDED,50)
-                        .build()
-        );
-
-        binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        binding.navigationMain.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.bot_home: mainViewModel.getCurrentScreen().setValue("HOME"); break;
-                    case R.id.bot_chat: mainViewModel.getCurrentScreen().setValue("MESSAGE"); break;
-                    case R.id.bot_fav: mainViewModel.getCurrentScreen().setValue("FAVORITE"); break;
-                    case R.id.bot_profile: mainViewModel.getCurrentScreen().setValue("PROFILE"); break;
+                    case R.id.nav_favorite: startActivity(new Intent(MainActivity.this,FavoriteActivity.class)); break;
+                    case R.id.nav_message: startActivity(new Intent(MainActivity.this,MessageActivity.class));
                 }
                 return true;
             }
@@ -110,14 +104,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void showToast(String msg){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Override
+    public void onClickCat(CategoryAdapter.CategoryVH viewHolder, String category) {
+
+        getWindow().setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.cat_transition));
+        getWindow().setSharedElementExitTransition(new Explode());
+
+        Intent intent = new Intent(this, CategoryActivity.class);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                Pair.create(viewHolder.itemView.findViewById(R.id.cat_back_image), "CAT_TRANS_IMG"),
+                Pair.create(viewHolder.itemView.findViewById(R.id.cat_label), "CAT_TRANS_TEXT"));
+
+        intent.putExtra("CATEGORY",category);
+        startActivity(intent, options.toBundle());
 
     }
 
+    @Override
+    public void onClickInf(Influencer influencer) {
+        Intent intent = new Intent(this, InfluencerActivity.class);
+        intent.putExtra("INFLUENCER",influencer.getInfId());
+        startActivity(intent);
+    }
 }

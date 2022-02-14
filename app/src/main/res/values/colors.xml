@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_200">#B991D7</color>
     <color name="purple_500">#000</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
@@ -19,4 +19,32 @@
     //Bottom navigation
     <color name="bottom_nav_back">#191919</color>
     <color name="bottom_nav_icon_color">#B8FFCC</color>
+
+    //Theme colors
+    <color name="orange_100">#FFFBF8</color>
+    <color name="orange_200">#FFE3CF</color>
+    <color name="orange_300">#FFD7BB</color>
+    <color name="orange_400">#FEC195</color>
+    <color name="peach">#FFBCA7</color>
+    <color name="purple">#DEC5FF</color>
+    <color name="black_3">#020202</color>
+    <color name="black_2">#2B2B2B</color>
+
+    <color name="grey_10">#484848</color>
+    <color name="grey_5">#9F9F9F</color>
+    <color name="grey_4">#9E9E9E</color>
+    <color name="grey_3">#D8D8D8</color>
+
+    //Category image dom color
+    <color name="fitness">#000000</color>
+    <color name="travel">#8CD7FF</color>
+    <color name="food">#003A0D</color>
+    <color name="fashion">#1E1E1E</color>
+    <color name="creative">#060B65</color>
+    <color name="sports">#000000</color>
+
+    //Inf prof cards
+    <color name="youtube_card_color">#FFE7E7</color>
+    <color name="insta_card_color">#FFEEDB</color>
+    <color name="twitter_card_color">#EAF7FF</color>
 </resources>

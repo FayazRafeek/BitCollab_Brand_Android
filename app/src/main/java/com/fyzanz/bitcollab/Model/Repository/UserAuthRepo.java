@@ -111,7 +111,7 @@ public class UserAuthRepo {
                             saveAuthState(firebaseAuth.getCurrentUser(),"");
                             resp.setStatus("SUCCESS");
                         }
-                        else resp.setStatus("ERROR");
+                        else resp.setStatus("ERROR"); resp.setError(task.getException());
 
                         loginLive.setValue(resp);
                     }

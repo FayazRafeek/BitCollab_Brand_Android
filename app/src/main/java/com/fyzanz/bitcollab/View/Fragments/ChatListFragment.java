@@ -9,17 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.fyzanz.bitcollab.databinding.FragmentProfileBinding;
+import com.fyzanz.bitcollab.databinding.FragmentChatListBinding;
 
-public class ProfileFragment extends Fragment {
+public class ChatListFragment extends Fragment {
 
-    FragmentProfileBinding binding;
+    FragmentChatListBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentProfileBinding.inflate(inflater,container,false); return binding.getRoot();
+
+         binding = FragmentChatListBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
-
-
 }

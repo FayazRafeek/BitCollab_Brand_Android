@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             app:boxStrokeColor="#000000"
+            android:hint="Email"
             app:layout_constraintTop_toBottomOf="@id/hero_txt_login"
             style="@style/Inplayout.Round"
             >
@@ -44,8 +45,8 @@
                 android:id="@+id/login_email_inp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
                 android:text="fayazmrafeek@gmail.com"
-                android:hint="Email"
                 >
 
             </com.google.android.material.textfield.TextInputEditText>
@@ -59,6 +60,7 @@
             android:layout_marginTop="8dp"
             app:boxStrokeColor="#000000"
             style="@style/Inplayout.Round"
+            android:hint="Password"
 
             >
 
@@ -66,8 +68,8 @@
                 android:id="@+id/login_pass_inp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:text="123456"
-                android:hint="Password"
                 >
 
             </com.google.android.material.textfield.TextInputEditText>

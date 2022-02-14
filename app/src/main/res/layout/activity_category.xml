@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/category_header"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+
+        android:elevation="3dp"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/act_cat_back_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:transitionName="CAT_TRANS_IMG"
+                android:src="@drawable/fitness_cat_back" />
+
+            <ImageView
+                android:id="@+id/back_btn_cat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16sp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/grey_3" />
+
+            <TextView
+                android:id="@+id/act_cat_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fitness"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:transitionName="CAT_TRANS_TEXT"
+                android:layout_marginBottom="6dp"
+                android:layout_marginStart="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/cat_sub_text"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/cat_sub_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="14sp"
+                android:text="183 Influencers"
+                android:textColor="@color/grey_3"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ScrollView
+        android:id="@+id/act_cat_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/category_header">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20sp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Now Trending"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/grey_10"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cat_pop_recycler"
+                android:layout_marginStart="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nearby Influencer"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="20sp"
+                android:layout_marginStart="24dp"
+                android:textColor="@color/grey_10"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cat_near_inf_recycler"
+                android:layout_marginHorizontal="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16sp"
+                android:paddingBottom="40dp"
+                />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

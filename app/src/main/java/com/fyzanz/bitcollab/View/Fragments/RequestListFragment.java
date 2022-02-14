@@ -1,7 +1,6 @@
 package com.fyzanz.bitcollab.View.Fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,26 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.fyzanz.bitcollab.databinding.FragmentHomeBinding;
+import com.fyzanz.bitcollab.databinding.FragmentRegisterBinding;
+import com.fyzanz.bitcollab.databinding.FragmentRequestListBinding;
 
-public class HomeFragment extends Fragment {
+public class RequestListFragment extends Fragment {
 
-    FragmentHomeBinding binding;
-
-
-    public HomeFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
+    FragmentRequestListBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentHomeBinding.inflate(inflater,container,false);
+        binding = FragmentRequestListBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
 
