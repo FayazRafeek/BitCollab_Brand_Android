@@ -8,6 +8,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fyzanz.bitcollab.BaseApplication;
+import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.R;
 import com.fyzanz.bitcollab.databinding.ActivitySplashBinding;
 
@@ -30,10 +32,13 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(is_logged_in)
+                if(is_logged_in){
+                    String userTpe = getSharedPreferences(getString(R.string.AUTH_PREF_FILE),MODE_PRIVATE).getString("USER_TYPE","");
+                    AppSingleton.getInstance().setUSER_TYPE(userTpe);
                     startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                }
                 else startActivity(new Intent(SplashActivity.this,AuthActivity.class));
-                finish();
+
             }
         },500);
 

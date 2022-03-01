@@ -57,12 +57,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fav_recycler"
-            android:layout_marginHorizontal="22dp"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Influencers"
+                android:layout_marginStart="24dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fav_recycler"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brands"
+                android:layout_marginStart="24dp"
+                android:textSize="16sp"
+                android:layout_marginTop="14sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fav_brand_recycler"
+                android:layout_marginHorizontal="22dp"
+                android:layout_marginTop="16sp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     </ScrollView>
 

@@ -1,6 +1,7 @@
 package com.fyzanz.bitcollab.View.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.fyzanz.bitcollab.BaseApplication;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 import com.fyzanz.bitcollab.R;
@@ -41,23 +43,40 @@ public class PopularInfAdapter extends RecyclerView.Adapter<PopularInfAdapter.Po
 
         Influencer item = items.get(position);
 
-        String fullName = item.getFirstName() + " " + item.getLastName();
-
+        String fullName = item.getDisplayName();
         holder.binding.popInfName.setText(fullName);
+
+        StringBuilder catSt = new StringBuilder();
+        if(item.getCategory() != null){
+            int i=0;
+            for(String s : item.getCategory()){
+                catSt.append(i > 0 ? " | " : "").append(s);
+                i++;
+            }
+        }
+        String category = catSt.toString();
+        if(category.length() > 20)
+            category = category.substring(0,17);
+
+        holder.binding.popInfCat.setText(category);
 
         if(type.equals("CATEGORY")) holder.binding.popInfCat.setVisibility(View.GONE);
 
-        switch (position){
-            case 0 : holder.binding.popInfImage.setImageDrawable(context.getDrawable(R.drawable.avatar_2)); break;
-            case 1 : holder.binding.popInfImage.setImageDrawable(context.getDrawable(R.drawable.avatar_3)); break;
-            case 2 : holder.binding.popInfImage.setImageDrawable(context.getDrawable(R.drawable.avatar_4)); break;
-            case 3 : holder.binding.popInfImage.setImageDrawable(context.getDrawable(R.drawable.profile_image)); break;
+        Log.d(TAG, "onBindViewHolder: Img " + item.getProfileUrl());
+        if(item.getProfileUrl() != null){
+            Glide
+                .with(context)
+                .load(item.getProfileUrl())
+                .centerCrop()
+                .into(holder.binding.popInfImage);
         }
     }
 
+    private static final String TAG = "333";
+
     @Override
     public int getItemCount() {
-        return items.size();
+        return items == null ? 0 : items.size();
     }
 
     public void updateAdapter(List<Influencer> influencers){

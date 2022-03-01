@@ -10,16 +10,18 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.R;
 import com.fyzanz.bitcollab.databinding.FragmentOnboardInfoBinding;
 
 public class OnBoardInfoFragment extends Fragment {
 
-
+    String userType;
     int position = 0;
 
     public OnBoardInfoFragment(int postion) {
         this.position = postion;
+        userType = AppSingleton.getInstance().getUSER_TYPE();
     }
 
     FragmentOnboardInfoBinding binding;
@@ -40,5 +42,7 @@ public class OnBoardInfoFragment extends Fragment {
             binding.obParent.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.ob_color_2));
         if(position == 2)
             binding.obParent.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.ob_color_3));
+
+        binding.typeInfo.setText(userType);
     }
 }

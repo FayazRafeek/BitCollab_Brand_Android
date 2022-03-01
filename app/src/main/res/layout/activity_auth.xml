@@ -28,15 +28,15 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_choose_btn"
+            android:id="@+id/brand_choose_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="16dp"
             app:cornerRadius="10dp"
-            android:text="Login" />
+            android:text="Sign in as Brand" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/register_choose_btn"
+            android:id="@+id/influencer_choose_btn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             app:strokeColor="@color/purple_500"
             app:strokeWidth="2dp"
             app:cornerRadius="10dp"
-            android:text="register your brand" />
+            android:text="Sign in as Influencer" />
 
     </LinearLayout>
 

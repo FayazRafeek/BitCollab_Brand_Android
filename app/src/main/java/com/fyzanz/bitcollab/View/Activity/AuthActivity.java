@@ -42,16 +42,18 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //Button Click handlers
-        binding.loginChooseBtn.setOnClickListener(new View.OnClickListener() {
+        binding.brandChooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                authViewModel.getAUTH_TYPE().setValue("LOGIN");
+                authViewModel.setUSER_TYPE("BRAND");
+                authViewModel.getAUTH_TYPE().setValue("REGISTER");
             }
         });
 
-        binding.registerChooseBtn.setOnClickListener(new View.OnClickListener() {
+        binding.influencerChooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                authViewModel.setUSER_TYPE("INFLUENCER");
                 authViewModel.getAUTH_TYPE().setValue("REGISTER");
             }
         });
@@ -77,6 +79,7 @@ public class AuthActivity extends AppCompatActivity {
         binding.fragmentContainer.setVisibility(View.GONE);
         binding.authChooser.setVisibility(View.VISIBLE);
     }
+
 
 
     void showAuthType(String type) {

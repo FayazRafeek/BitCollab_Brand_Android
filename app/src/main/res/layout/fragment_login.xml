@@ -19,6 +19,15 @@
         android:paddingBottom="8dp"
         >
 
+        <ImageView
+            android:id="@+id/close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="@+id/hero_txt_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/hero_txt_login" />
+
         <TextView
             android:id="@+id/hero_txt_login"
             android:layout_width="wrap_content"
@@ -84,7 +93,7 @@
             app:layout_constraintTop_toBottomOf="@id/login_pass_lay"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/orange_400"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:cornerRadius="10dp"
@@ -182,6 +191,7 @@
             android:layout_height="40dp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/hero_txt_login"
             app:layout_constraintTop_toTopOf="@+id/hero_txt_login" />
 
 

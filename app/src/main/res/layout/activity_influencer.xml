@@ -127,6 +127,7 @@
             app:layout_constraintTop_toBottomOf="@+id/inf_prof_cat">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/collab_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -140,6 +141,7 @@
                 app:iconTint="@color/black" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/favorite_btn"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -150,6 +152,7 @@
                 android:textColor="@color/black"
                 app:strokeColor="@color/orange_400"
                 android:textSize="14dp"
+                app:backgroundTint="@color/orange_200"
                 app:icon="@drawable/ic_fav_outline"
                 app:iconTint="@color/orange_400" />
 
@@ -201,10 +204,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/youtube_card_parent"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="80dp"
                 app:cardBackgroundColor="@color/youtube_card_color"
                 app:cardCornerRadius="10dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
                 >
 
 
@@ -216,13 +222,28 @@
 
                     <ImageView
                         android:id="@+id/ic_youtube"
-                        android:layout_width="60dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/ic_youtube"
+                        android:layout_marginTop="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/youtube_id"
+                        app:layout_constraintStart_toStartOf="@+id/youtube_id"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/youtube_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="\@johny_depp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:layout_marginStart="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/ic_youtube" />
+
 
                     <LinearLayout
                         android:id="@+id/yt_info"
@@ -301,11 +322,13 @@
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/insta_card_parent"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="80dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/insta_card_color"
-                android:layout_marginTop="16dp">
+                android:visibility="gone"
+                android:layout_marginBottom="16sp"
+                app:cardBackgroundColor="@color/insta_card_color">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/insta_parent"
@@ -315,13 +338,26 @@
 
                     <ImageView
                         android:id="@+id/instagram_icon"
-                        android:layout_width="60dp"
+                        android:layout_width="50dp"
                         android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
                         android:src="@drawable/ic_insta"
+                        app:layout_constraintEnd_toEndOf="@+id/insta_id"
+                        app:layout_constraintStart_toStartOf="@+id/insta_id"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/insta_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="\@johny_depp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:layout_marginStart="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/instagram_icon" />
 
                     <LinearLayout
                         android:id="@+id/insta_info"
@@ -400,11 +436,12 @@
 
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/twitter_card_parent"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 app:cardCornerRadius="10dp"
+                android:visibility="gone"
                 app:cardBackgroundColor="@color/twitter_card_color"
-                android:layout_marginTop="16sp"
                 >
 
 
@@ -418,11 +455,27 @@
                         android:id="@+id/twitter_icon"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
-                        android:layout_marginStart="16dp"
                         android:src="@drawable/ic_twitter"
+                        android:layout_marginTop="12sp"
+                        app:layout_constraintEnd_toEndOf="@+id/twitter_id"
+                        app:layout_constraintStart_toStartOf="@+id/twitter_id"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/twitter_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="\@johny_depp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:layout_marginStart="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/twitter_icon" />
+
+
 
                     <LinearLayout
                         android:id="@+id/twitter_info"

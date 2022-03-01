@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.View.Fragments.OnBoardInfoFragment;
 import com.fyzanz.bitcollab.databinding.ActivityOnboardBinding;
 import com.google.android.material.tabs.TabLayout;

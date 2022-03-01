@@ -83,7 +83,6 @@
             android:id="@+id/home_screen_scrollview"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,13 +91,51 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="40dp"
                 android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profile_comp_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/black_3"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginBottom="8dp"
+                    app:cardCornerRadius="8dp">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Clich here to complete your profile"
+                            android:textColor="@color/white"
+                            android:layout_marginStart="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_next_2"
+                            app:tint="@color/white"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Categories"
+                    android:layout_marginTop="8dp"
                     android:layout_marginStart="24dp"
                     android:textStyle="bold"
                     android:textSize="18sp"
@@ -119,6 +156,7 @@
                     android:layout_marginTop="16sp"
                     android:layout_marginStart="24dp"
                     android:textSize="18sp"
+                    android:paddingEnd="30dp"
                     android:textColor="@color/black_3"/>
 
 
@@ -128,7 +166,77 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16sp"
+                    android:visibility="gone"
                     />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/pop_inf_shimmer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="22sp"
+                    android:orientation="horizontal">
+
+                    <!-- Adding 7 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <include layout="@layout/placeholder_pop_inf" />
+                        <include layout="@layout/placeholder_pop_inf" />
+                        <include layout="@layout/placeholder_pop_inf" />
+                        <include layout="@layout/placeholder_pop_inf" />
+                        <include layout="@layout/placeholder_pop_inf" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trending Brands"
+                    android:layout_marginTop="16sp"
+                    android:layout_marginStart="24dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/black_3"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_pop_brn_recycler"
+                    android:layout_marginStart="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="30dp"
+                    android:visibility="gone"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16sp"
+                    />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/pop_brn_shimmer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    android:layout_marginStart="22sp"
+                    android:orientation="horizontal">
+
+                    <!-- Adding 7 rows of placeholders -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <include layout="@layout/placeholder_pop_brand" />
+                        <include layout="@layout/placeholder_pop_brand" />
+                        <include layout="@layout/placeholder_pop_brand" />
+                        <include layout="@layout/placeholder_pop_brand" />
+                        <include layout="@layout/placeholder_pop_brand" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

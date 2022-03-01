@@ -34,6 +34,7 @@
     <color name="grey_5">#9F9F9F</color>
     <color name="grey_4">#9E9E9E</color>
     <color name="grey_3">#D8D8D8</color>
+    <color name="grey_2">#EDEDED</color>
 
     //Category image dom color
     <color name="fitness">#000000</color>
@@ -47,4 +48,7 @@
     <color name="youtube_card_color">#FFE7E7</color>
     <color name="insta_card_color">#FFEEDB</color>
     <color name="twitter_card_color">#EAF7FF</color>
+
+    //fav
+    <color name="red_300">#FF5A6D</color>
 </resources>

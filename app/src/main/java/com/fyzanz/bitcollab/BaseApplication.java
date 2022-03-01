@@ -2,9 +2,13 @@ package com.fyzanz.bitcollab;
 
 import android.app.Application;
 
+import androidx.room.Room;
+
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
+import com.fyzanz.bitcollab.Model.Repository.UserDataRepo;
+import com.fyzanz.bitcollab.Model.Room.AppDatabase;
 
 public class BaseApplication extends Application {
 
@@ -12,14 +16,10 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         context = this;
+        UserDataRepo.getInstance();
 
-        //Amplify Configs
-        try {
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
-        } catch (AmplifyException e) {
-            e.printStackTrace();
-        }
+        AppDatabase.createDatabase(this);
+
     }
 
     private static BaseApplication context;

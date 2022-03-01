@@ -61,6 +61,13 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        binding.closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                authViewModel.getAUTH_TYPE().setValue("CHOOSE");
+            }
+        });
+
     }
 
 

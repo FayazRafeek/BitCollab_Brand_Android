@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.fyzanz.bitcollab.BaseApplication;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 import com.fyzanz.bitcollab.databinding.InfluencerListItemBinding;
@@ -41,7 +42,7 @@ public class InfluencerListAdapter extends RecyclerView.Adapter<InfluencerListAd
     public void onBindViewHolder(@NonNull InfListVH holder, int position) {
 
         Influencer item = items.get(position);
-        holder.binding.infListName.setText(item.getFirstName() + " " + item.getLastName());
+        holder.binding.infListName.setText(item.getDisplayName());
 
         if(type.equals("CATEGORY")){
             holder.binding.socialInfo.setVisibility(View.VISIBLE);
@@ -50,6 +51,24 @@ public class InfluencerListAdapter extends RecyclerView.Adapter<InfluencerListAd
             holder.binding.socialInfo.setVisibility(View.GONE);
             holder.binding.listFavBtn.setVisibility(View.VISIBLE);
         }
+
+        StringBuilder catSt = new StringBuilder();
+        if(item.getCategory() != null){
+            int i=0;
+            for(String s : item.getCategory()){
+                catSt.append(i > 0 ? " | " : "").append(s);
+                i++;
+            }
+        }
+        String category = catSt.toString();
+        if(category.length() > 20)
+            category = category.substring(0,17);
+
+        holder.binding.infListCat.setText(category);
+
+        Glide
+            .with(context).load(item.getProfileUrl()).centerCrop()
+                .into(holder.binding.infListImage);
     }
 
     @Override

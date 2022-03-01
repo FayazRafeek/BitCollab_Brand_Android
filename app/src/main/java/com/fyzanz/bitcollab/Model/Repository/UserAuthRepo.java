@@ -20,6 +20,7 @@ import com.amplifyframework.core.Amplify;
 import com.fyzanz.bitcollab.BaseApplication;
 import com.fyzanz.bitcollab.Model.Data.BasicResponse;
 import com.fyzanz.bitcollab.Model.Data.Brand;
+import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +50,7 @@ public class UserAuthRepo {
     }
 
     //REGISTER
-    public LiveData<BasicResponse> startUserRegister(String name,String email,String password) {
+    public LiveData<BasicResponse> startUserRegister(String userType,String name,String email,String password) {
 
         BasicResponse resp = new BasicResponse("LOADING");
 
@@ -60,25 +61,13 @@ public class UserAuthRepo {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+                            saveAuthState(firebaseAuth.getCurrentUser(),email,userType);
+                            resp.setStatus("SUCCESS");
 
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            Brand brand = new Brand(user.getUid(),name, email,false);
-
-                            firestore.collection("Brands")
-                                    .document(user.getUid())
-                                    .set(brand)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if(task.isSuccessful()){
-                                                saveAuthState(user,name);
-                                                resp.setStatus("SUCCESS");
-                                            } else resp.setStatus("ERROR");
-                                            regLive.setValue(resp);
-                                        }
-                                    });
-
-                        } else resp.setStatus("ERROR");
+                        } else {
+                            resp.setError(task.getException());
+                            resp.setStatus("ERROR");
+                        }
 
                         regLive.setValue(resp);
                     }
@@ -97,7 +86,7 @@ public class UserAuthRepo {
     }
 
     //LOGIN
-    public LiveData<BasicResponse> startUserLogin(String email,String password) {
+    public LiveData<BasicResponse> startUserLogin(String userType,String email,String password) {
 
         BasicResponse resp = new BasicResponse("LOADING");
 
@@ -108,10 +97,13 @@ public class UserAuthRepo {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            saveAuthState(firebaseAuth.getCurrentUser(),"");
+                            saveAuthState(firebaseAuth.getCurrentUser(),"",userType);
                             resp.setStatus("SUCCESS");
                         }
-                        else resp.setStatus("ERROR"); resp.setError(task.getException());
+                        else {
+                            resp.setStatus("ERROR");
+                            resp.setError(task.getException());
+                        }
 
                         loginLive.setValue(resp);
                     }
@@ -123,15 +115,16 @@ public class UserAuthRepo {
 
 
     //Save Auth State
-    private Boolean saveAuthState(FirebaseUser user, String name){
+    private Boolean saveAuthState(FirebaseUser user, String email, String userType){
 
         if(user != null){
             SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.AUTH_PREF_FILE),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean(getString(R.string.IS_LOGIN_KEY), true);
             editor.putString("USER_ID_KEY",user.getUid());
-            editor.putString("USER_NAME_KEY",user.getDisplayName() == null ? name : user.getDisplayName());
             editor.putString("USER_EMAIL_KEY",user.getEmail());
+            editor.putString("USER_TYPE",userType);
+            AppSingleton.getInstance().setUSER_TYPE(userType);
             editor.apply();
             return true;
         } else return false;
