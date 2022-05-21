@@ -72,22 +72,28 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/yout_ic"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
+                android:visibility="gone"
                 android:layout_marginStart="3dp"
                 android:src="@drawable/ic_youtube" />
 
             <ImageView
+                android:id="@+id/insta_ic"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
+                android:visibility="gone"
                 android:layout_marginStart="3dp"
                 android:src="@drawable/ic_insta" />
 
             <ImageView
+                android:id="@+id/twit_ic"
                 android:layout_width="30dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="3dp"
                 android:scaleType="fitCenter"
+                android:visibility="gone"
                 android:src="@drawable/ic_twitter" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

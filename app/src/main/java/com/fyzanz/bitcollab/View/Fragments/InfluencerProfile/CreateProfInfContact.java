@@ -102,6 +102,7 @@ public class CreateProfInfContact extends Fragment implements SelectDialog.OnDia
         String phone = binding.phoneInp.getText().toString();
         String address = binding.addressInp.getText().toString();
         String state = binding.stateInp.getText().toString();
+        String country = binding.countryInp.getText().toString();
         String pincode = binding.pincodeInp.getText().toString();
         viewModel.setInfProfContactdata(phone,address,country,state,pincode);
         viewModel.nextPage();
@@ -115,6 +116,6 @@ public class CreateProfInfContact extends Fragment implements SelectDialog.OnDia
         binding.addressInp.setText(influencer.getAddress());
         binding.stateInp.setText(influencer.getState());
         binding.countryInp.setText(influencer.getCountry());
-        binding.pincodeInp.setText(influencer.getPincode());
+        binding.pincodeInp.setText(influencer.getPincode() + "");
     }
 }

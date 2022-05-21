@@ -9,10 +9,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.BitCollab">
         <activity
             android:name=".View.Activity.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Splash"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +31,13 @@
         <activity android:name=".View.Activity.MessageActivity" android:theme="@style/Theme.CatActivity"/>
         <activity android:name=".View.Activity.CreateProfileActivity" />
         <activity android:name=".View.Activity.BrandActivity" />
+        <activity android:name=".View.Activity.SearchActivity" />
+        <activity android:name=".View.Activity.NewCollabRequestActivity"  android:theme="@style/Theme.CatActivity"/>
+        <activity android:name=".View.Activity.NewCampaignActivity" android:theme="@style/Theme.CatActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".View.Activity.CampaignListActivity" android:theme="@style/Theme.CatActivity"/>
+        <activity android:name=".View.Activity.CampaignDetailActivity" android:theme="@style/Theme.CatActivity"/>
+        <activity android:name=".View.Activity.ReqDetailActivity" android:theme="@style/Theme.CatActivity"/>
+        <activity android:name=".View.Activity.InfluencerProfileActivity" />
     </application>
 
 </manifest>

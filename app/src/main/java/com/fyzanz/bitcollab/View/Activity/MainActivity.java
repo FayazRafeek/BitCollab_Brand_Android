@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.transition.Explode;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -24,12 +25,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fyzanz.bitcollab.Model.Data.BasicResponse;
 import com.fyzanz.bitcollab.Model.Data.Brand;
+import com.fyzanz.bitcollab.Model.Data.Campaign;
 import com.fyzanz.bitcollab.Model.Data.Category;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
+import com.fyzanz.bitcollab.Model.Repository.UserDataRepo;
 import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.R;
+import com.fyzanz.bitcollab.View.Adapter.CampaignListAdapter;
 import com.fyzanz.bitcollab.View.Adapter.CategoryAdapter;
 import com.fyzanz.bitcollab.View.Adapter.InfluencerListAdapter;
 import com.fyzanz.bitcollab.View.Adapter.PopBrandAdapter;
@@ -38,6 +43,7 @@ import com.fyzanz.bitcollab.ViewModel.MainViewModel;
 import com.fyzanz.bitcollab.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +88,13 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
             }
         });
 
+        binding.newCampaignBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, NewCampaignActivity.class));
+            }
+        });
+
 
         mainViewModel.getPopularInfListLive().observe(this, new Observer<List<Influencer>>() {
             @Override
@@ -96,6 +109,15 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
                 updatePopularBrand(brands);
             }
         });
+
+        binding.searchLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            }
+        });
+
+
     }
 
     CategoryAdapter categoryAdapter;
@@ -136,18 +158,50 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
             }
         });
 
+        if(userType.equals("INFLUENCER"))
+            binding.navigationMain.getMenu().findItem(R.id.nav_campaign).setVisible(false);
+
         binding.navigationMain.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_favorite: startActivity(new Intent(MainActivity.this,FavoriteActivity.class)); break;
-                    case R.id.nav_message: startActivity(new Intent(MainActivity.this,MessageActivity.class));
-                    case R.id.nav_logout: logout();
+                    case R.id.nav_message: startActivity(new Intent(MainActivity.this,MessageActivity.class)); break;
+                    case R.id.nav_logout: logout(); break;
+                    case R.id.nav_campaign: startActivity(new Intent(MainActivity.this, CampaignListActivity.class)); break;
+                    case R.id.nav_profile: startProfile();
+
                 }
                 return true;
             }
         });
 
+        binding.profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               startProfile();
+            }
+        });
+
+
+
+    }
+
+    void startProfile(){
+        if(userType.equals("INFLUENCER")){
+            Intent intent = new Intent(MainActivity.this,InfluencerActivity.class);
+            Influencer influencer = UserDataRepo.getInstance().getInfLocalData();
+            AppSingleton.getInstance().setSelectedInfluencer(influencer);
+            intent.putExtra("PROFILE_VIEW",true);
+            startActivity(intent);
+        } else
+        {
+            Intent intent = new Intent(MainActivity.this,BrandActivity.class);
+            Brand brand = UserDataRepo.getInstance().getBrnLocalData();
+            AppSingleton.getInstance().setSelectedBrand(brand);
+            intent.putExtra("PROFILE_VIEW",true);
+            startActivity(intent);
+        }
     }
 
 
@@ -257,7 +311,12 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
                             String compl = basicResponse.getData().toString();
                             if(!compl.equals("100")){
                                 showProfCompleteUi();
-                            } else hideProfComUi();
+                            } else {
+                                hideProfComUi();
+                                saveInfProfileCompStatus();
+
+                                updateProfileImg();
+                            };
                         }
                     }
                 });
@@ -272,15 +331,46 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
                             String compl = basicResponse.getData().toString();
                             if(!compl.equals("100")){
                                 showProfCompleteUi();
-                            } else hideProfComUi();
+                                binding.newCampaignBtn.setVisibility(View.GONE);
+                            } else {
+                                binding.newCampaignBtn.setVisibility(View.VISIBLE);
+                                hideProfComUi();
+                                updateProfileImg();
+                            };
                         }
                     }
                 });
     }
 
+    void updateProfileImg(){
+        if(userType.equals("INFLUENCER")){
+            Influencer influencer = UserDataRepo.getInstance().getInfLocalData();
+            if(influencer != null){
+                Glide.with(this)
+                        .load(influencer.getProfileUrl())
+                        .centerCrop()
+                        .into(binding.profileImage);
+            }
+        } else {
+            Brand brand = UserDataRepo.getInstance().getBrnLocalData();
+            if(brand != null){
+                Glide.with(this)
+                        .load(brand.getLogoImgUrl())
+                        .centerCrop()
+                        .into(binding.profileImage);
+            }
+        }
+    }
+
     void showProfCompleteUi(){
         binding.profileCompBtn.setVisibility(View.VISIBLE);
     }
+
+
+    void saveInfProfileCompStatus(){
+
+    }
+
 
     void hideProfComUi(){
         binding.profileCompBtn.setVisibility(View.GONE);
@@ -292,5 +382,16 @@ public class MainActivity extends AppCompatActivity implements CategoryAdapter.O
         intent.putExtra("BRAND_ID",brand.getBrandId());
         AppSingleton.getInstance().setSelectedBrand(brand);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(userType.equals("INFLUENCER")){
+            checkInfProfStatus();
+        } else {
+            checkBrnProfStatus();
+        }
+
     }
 }

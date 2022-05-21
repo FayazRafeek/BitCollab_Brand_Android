@@ -14,10 +14,11 @@
         />
 
     <item
-        android:id="@+id/nav_notification"
-        android:title="Notification"
-        android:icon="@drawable/ic_alert"
+        android:id="@+id/nav_campaign"
+        android:title="Campaigns"
+        android:icon="@drawable/ic_campaign"
         />
+
 
     <item
         android:id="@+id/nav_profile"

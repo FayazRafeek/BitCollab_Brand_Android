@@ -28,7 +28,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.palette.graphics.Palette;
 
+import com.bumptech.glide.Glide;
+import com.fyzanz.bitcollab.R;
 import com.fyzanz.bitcollab.ViewModel.ProfileViewModel;
 import com.fyzanz.bitcollab.databinding.FragmentCreatePrfInfBasicBinding;
 
@@ -43,6 +46,11 @@ public class CreateProfInfBasic extends Fragment {
     ProfileViewModel viewModel;
 
     Boolean IS_PROF_CHOOSE = false, IS_COVER_CHOOSE = false;
+    String type = "CREATE";
+
+    public CreateProfInfBasic(String type) {
+        this.type = type;
+    }
 
     @Nullable
     @Override
@@ -127,6 +135,7 @@ public class CreateProfInfBasic extends Fragment {
             });
 
 
+    private static final String TAG = "333";
     ActivityResultLauncher<Intent> coverSelecResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -191,8 +200,15 @@ public class CreateProfInfBasic extends Fragment {
         binding.prfileCoverChoose.buildDrawingCache();
         Bitmap coverBitmap = ((BitmapDrawable) binding.prfileCoverChoose.getDrawable()).getBitmap();
 
-        viewModel.setInfProfBasicData(displayName,dob,profileBitmap,coverBitmap);
+        String gender = "";
+        switch (binding.genderRadioCreateProfile.getCheckedRadioButtonId()){
+            case R.id.male_radio_inf: gender = "Male"; break;
+            case R.id.female_radio_inf: gender = "Female"; break;
+            case R.id.other_radio_inf: gender = "Other"; break;
+            default: gender = "Male";
+        }
 
+        viewModel.setInfProfBasicData(displayName,dob,gender,profileBitmap,coverBitmap);
         viewModel.nextPage();
     }
 
@@ -200,11 +216,38 @@ public class CreateProfInfBasic extends Fragment {
     void updateUi(){
         binding.disNameInp.setText(viewModel.influencer.getDisplayName());
         binding.dobInp.setText(viewModel.influencer.getDob());
+
         dob = viewModel.influencer.getDob();
         binding.prfileImgChoose.setImageBitmap(viewModel.profImgData);
         binding.prfileCoverChoose.setImageBitmap(viewModel.coverImgData);
         IS_COVER_CHOOSE = true; IS_PROF_CHOOSE = true;
+
         binding.coverLabel.setVisibility(View.GONE);
         binding.profLabel.setVisibility(View.GONE);
+
+        if(type.equals("EDIT")){
+            if(viewModel.profImgData == null){
+                Glide.with(getActivity())
+                        .load(viewModel.influencer.getProfileUrl())
+                        .centerCrop()
+                        .into(binding.prfileImgChoose);
+                Glide.with(getActivity())
+                        .load(viewModel.influencer.getCoverImgUrl())
+                        .centerCrop()
+                        .into(binding.prfileCoverChoose);
+            }
+
+
+            if(binding.genderRadioCreateProfile.getCheckedRadioButtonId() != -1) return;
+            if(viewModel.influencer.getGender() != null){
+                if(viewModel.influencer.getGender().equals("Male"))
+                    binding.maleRadioInf.setChecked(true);
+                else if(viewModel.influencer.getGender().equals("Female"))
+                    binding.femaleRadioInf.setChecked(true);
+                else
+                    binding.otherRadioInf.setChecked(true);
+            }
+
+        }
     }
 }

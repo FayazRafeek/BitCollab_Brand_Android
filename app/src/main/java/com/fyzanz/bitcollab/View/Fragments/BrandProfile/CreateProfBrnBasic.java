@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.fyzanz.bitcollab.ViewModel.ProfileViewModel;
 import com.fyzanz.bitcollab.databinding.FragmentCreatePrfBrnBasicBinding;
 
@@ -29,6 +30,12 @@ public class CreateProfBrnBasic extends Fragment {
 
     FragmentCreatePrfBrnBasicBinding binding;
     ProfileViewModel profileViewModel;
+
+    String type = "CREATE";
+
+    public CreateProfBrnBasic(String type) {
+        this.type = type;
+    }
 
     @Nullable
     @Override
@@ -122,6 +129,7 @@ public class CreateProfBrnBasic extends Fragment {
 
 
     void gatherData(){
+
         String brandName = binding.disNameInp.getText().toString();
         String tagline = binding.taglineInp.getText().toString();
         binding.prfileImgChoose.setDrawingCacheEnabled(true);
@@ -131,7 +139,7 @@ public class CreateProfBrnBasic extends Fragment {
         binding.prfileCoverChoose.setDrawingCacheEnabled(true);
         binding.prfileCoverChoose.buildDrawingCache();
         Bitmap coverBitmap = ((BitmapDrawable) binding.prfileCoverChoose.getDrawable()).getBitmap();
-
+//
         profileViewModel.setBrnProfBasicData(brandName,tagline,logoBitmap,coverBitmap);
         profileViewModel.nextPage();
     }
@@ -139,7 +147,22 @@ public class CreateProfBrnBasic extends Fragment {
 
     void updateUi(){
         binding.disNameInp.setText(profileViewModel.brand.getBrandName());
+        binding.taglineInp.setText(profileViewModel.brand.getTagline());
+
         binding.prfileImgChoose.setImageBitmap(profileViewModel.brnLogoImgBit);
         binding.prfileCoverChoose.setImageBitmap(profileViewModel.brnCoverimgBit);
+
+        if(type.equals("EDIT")){
+            if(profileViewModel.brnLogoImgBit == null){
+                Glide.with(getContext())
+                        .load(profileViewModel.brand.getLogoImgUrl())
+                        .centerCrop()
+                        .into(binding.prfileImgChoose);
+                Glide.with(getContext())
+                        .load(profileViewModel.brand.getCoverImgUrl())
+                        .centerCrop()
+                        .into(binding.prfileCoverChoose);
+            }
+        }
     }
 }

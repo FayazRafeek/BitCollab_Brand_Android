@@ -41,6 +41,12 @@ public class LoginFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+
+        if(authViewModel.getUSER_TYPE().equals("INFLUENCER"))
+            binding.loginBtn.setText("LOGIN AS INFLUENCER");
+        else
+            binding.loginBtn.setText("LOGIN AS BRAND");
+
         binding.registerSwitchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

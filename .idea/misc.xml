@@ -4,32 +4,49 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/app_header_1.xml" value="0.3260416666666667" />
+        <entry key="app/src/main/res/drawable/dotted.xml" value="0.3101851851851852" />
         <entry key="app/src/main/res/drawable/drop_text_otem.xml" value="0.30277777777777776" />
+        <entry key="app/src/main/res/drawable/null_drawable.xml" value="0.3101851851851852" />
         <entry key="app/src/main/res/drawable/popular_inf_back.xml" value="0.2953703703703704" />
         <entry key="app/src/main/res/drawable/popular_inf_list_back.xml" value="0.2759259259259259" />
         <entry key="app/src/main/res/drawable/tab_indicator_default.xml" value="0.30648148148148147" />
         <entry key="app/src/main/res/drawable/tab_indicator_selected.xml" value="0.14814814814814814" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.30648148148148147" />
+        <entry key="app/src/main/res/font/biljoi_font.xml" value="0.3194444444444444" />
         <entry key="app/src/main/res/layout/active_collab_layout.xml" value="0.23822463768115942" />
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_brand.xml" value="0.2078804347826087" />
-        <entry key="app/src/main/res/layout/activity_category.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_campaign_detail.xml" value="0.17980072463768115" />
+        <entry key="app/src/main/res/layout/activity_campaign_list.xml" value="0.19791666666666666" />
+        <entry key="app/src/main/res/layout/activity_category.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_create_campaign.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/activity_create_profile.xml" value="0.23233695652173914" />
         <entry key="app/src/main/res/layout/activity_favorite.xml" value="0.2289156626506024" />
         <entry key="app/src/main/res/layout/activity_influencer.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_influencer_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_message.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_new_collab_request.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_onboard.xml" value="0.23867753623188406" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/activity_req_detail.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_search.xml" value="0.21014492753623187" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2563405797101449" />
         <entry key="app/src/main/res/layout/brand_cat_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/brand_list_item.xml" value="0.375" />
         <entry key="app/src/main/res/layout/brand_list_layout.xml" value="0.20380434782608695" />
+        <entry key="app/src/main/res/layout/campaign_list_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/cat_list_item.xml" value="0.213768115942029" />
         <entry key="app/src/main/res/layout/category_list_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/chat_layout_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/chat_list_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/demo_layout.xml" value="0.23550724637681159" />
         <entry key="app/src/main/res/layout/dialog_select.xml" value="0.21920289855072464" />
+        <entry key="app/src/main/res/layout/file_list_layout.xml" value="0.19791666666666666" />
+        <entry key="app/src/main/res/layout/filter_sheet_dialog.xml" value="0.20606884057971014" />
+        <entry key="app/src/main/res/layout/fragment_camp_step1.xml" value="0.19791666666666666" />
+        <entry key="app/src/main/res/layout/fragment_camp_step2.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_camp_step3.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chat_list.xml" value="0.19384057971014493" />
         <entry key="app/src/main/res/layout/fragment_create_prf_brn_about.xml" value="0.2078804347826087" />
@@ -52,12 +69,15 @@
         <entry key="app/src/main/res/layout/fragment_request_list.xml" value="0.19384057971014493" />
         <entry key="app/src/main/res/layout/fragment_verify_email.xml" value="0.2346014492753623" />
         <entry key="app/src/main/res/layout/influencer_list_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/nav_header_layout.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/nav_header_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/placeholder_campaign_list.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/placeholder_pop_brand.xml" value="0.2078804347826087" />
         <entry key="app/src/main/res/layout/placeholder_pop_inf.xml" value="0.2078804347826087" />
         <entry key="app/src/main/res/layout/pop_inf_list_item.xml" value="0.213768115942029" />
         <entry key="app/src/main/res/layout/popular_inf_layout.xml" value="0.335" />
         <entry key="app/src/main/res/layout/prof_cat_select.xml" value="0.21195652173913043" />
+        <entry key="app/src/main/res/layout/request_layout_item.xml" value="0.1933876811594203" />
+        <entry key="app/src/main/res/layout/sort_sheet_dialog.xml" value="0.335" />
         <entry key="app/src/main/res/layout/topics_item_layout.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/menu/navigation_menu.xml" value="0.3098958333333333" />

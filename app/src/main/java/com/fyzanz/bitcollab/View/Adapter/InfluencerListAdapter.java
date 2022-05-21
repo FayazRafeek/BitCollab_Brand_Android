@@ -54,21 +54,32 @@ public class InfluencerListAdapter extends RecyclerView.Adapter<InfluencerListAd
 
         StringBuilder catSt = new StringBuilder();
         if(item.getCategory() != null){
-            int i=0;
+            int i=0, size = item.getCategory().size();
             for(String s : item.getCategory()){
-                catSt.append(i > 0 ? " | " : "").append(s);
+                catSt.append(s);
+                if(i < size - 1)
+                    catSt.append(" | ");
                 i++;
             }
         }
         String category = catSt.toString();
-        if(category.length() > 20)
-            category = category.substring(0,17);
 
+        if(category.length() > 24) category = category.substring(0,24);
         holder.binding.infListCat.setText(category);
 
         Glide
             .with(context).load(item.getProfileUrl()).centerCrop()
                 .into(holder.binding.infListImage);
+
+        if(item.getSocials() != null){
+            for(String s : item.getSocials()){
+                switch (s){
+                    case "Instagram" : holder.binding.instaIc.setVisibility(View.VISIBLE); break;
+                    case "Youtube" : holder.binding.youtIc.setVisibility(View.VISIBLE); break;
+                    case "Twitter" : holder.binding.twitIc.setVisibility(View.VISIBLE); break;
+                }
+            }
+        }
     }
 
     @Override

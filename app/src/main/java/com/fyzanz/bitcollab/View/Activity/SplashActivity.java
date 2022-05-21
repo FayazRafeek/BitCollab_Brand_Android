@@ -15,8 +15,6 @@ import com.fyzanz.bitcollab.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static final String TAG = "333";
-
     ActivitySplashBinding binding;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,10 +23,8 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         Boolean is_logged_in = getSharedPreferences(getString(R.string.AUTH_PREF_FILE),MODE_PRIVATE).getBoolean(getString(R.string.IS_LOGIN_KEY),false);
 
-        Log.d(TAG, "onCreate: IS LOGIN " + is_logged_in);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -39,6 +35,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 else startActivity(new Intent(SplashActivity.this,AuthActivity.class));
 
+                finish();
             }
         },500);
 

@@ -1,6 +1,7 @@
 package com.fyzanz.bitcollab.View.Fragments.BrandProfile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,12 @@ public class CreateProfBrnContact extends Fragment implements SelectDialog.OnDia
     FragmentCreatePrfBrnContactBinding binding;
     ProfileViewModel profileViewModel;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("333", "onCreate: CREATED CONTACT");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,6 +42,7 @@ public class CreateProfBrnContact extends Fragment implements SelectDialog.OnDia
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         profileViewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
 
         if(profileViewModel.IS_BRN_CONTACT_SET)
@@ -105,10 +113,13 @@ public class CreateProfBrnContact extends Fragment implements SelectDialog.OnDia
 
     void updateUi(){
         Brand brand = profileViewModel.brand;
+        if(brand == null) return;
         binding.phoneInp.setText(brand.getPhone());
         binding.addressInp.setText(brand.getAddress());
         binding.stateInp.setText(brand.getState());
+        binding.pincodeInp.setText(brand.getPincode() + "");
+
         binding.countryInp.setText(brand.getCountry());
-        binding.pincodeInp.setText(brand.getPincode());
+
     }
 }

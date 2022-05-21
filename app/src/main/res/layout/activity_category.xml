@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginBottom="14sp"
-                android:text="183 Influencers"
+                android:text="~~"
                 android:textColor="@color/grey_3"
                 android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -70,60 +70,248 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <ScrollView
-        android:id="@+id/act_cat_scroll"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/cat_swipe"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/category_header">
 
-
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/cat_scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20sp"
-            >
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category_header">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Now Trending"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginStart="24dp"
-                android:textColor="@color/grey_10"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cat_pop_recycler"
-                android:layout_marginStart="22dp"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16sp"
-                />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nearby Influencer"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:layout_marginTop="20sp"
-                android:layout_marginStart="24dp"
-                android:textColor="@color/grey_10"/>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/empty_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginHorizontal="24dp"
+                    android:textColor="@color/grey_10"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    android:layout_marginTop="12sp"
+                    app:cardBackgroundColor="#EFEFEF"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="0dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cat_near_inf_recycler"
-                android:layout_marginHorizontal="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16sp"
-                android:paddingBottom="40dp"
-                />
+                    <TextView
+                        android:id="@+id/empty_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:text="No Data found!" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:id="@+id/inf_cat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20sp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/cat_inf_pop_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Now Trending"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/grey_10"/>
 
 
-        </LinearLayout>
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cat_inf_pop_empty_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="24dp"
+                        android:textColor="@color/grey_10"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:layout_marginTop="12sp"
+                        app:cardBackgroundColor="#EFEFEF"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="0dp">
 
-    </ScrollView>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:text="No Data found!" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/cat_pop_recycler"
+                        android:layout_marginStart="22dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/cat_inf_nearby_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nearby Influencer"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/grey_10"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cat_inf_nearby_empty_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="24dp"
+                        android:textColor="@color/grey_10"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:layout_marginTop="12sp"
+                        app:cardBackgroundColor="#EFEFEF"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:text="No Data found!" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/cat_near_inf_recycler"
+                        android:layout_marginHorizontal="22dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:paddingBottom="40dp"
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/brand_cat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20sp"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/cat_brnd_pop_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Popular brands"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/grey_10"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cat_brn_pop_empty_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginHorizontal="24dp"
+                        android:textColor="@color/grey_10"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        android:layout_marginTop="12sp"
+                        app:cardBackgroundColor="#EFEFEF"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:text="No Data found!" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/cat_pop_brand_recycler"
+                        android:layout_marginStart="22dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/cat_nearby_brand_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nearby you"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginStart="24dp"
+                        android:textColor="@color/grey_10"/>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cat_brn_nearby_empty_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="12sp"
+                        android:layout_marginHorizontal="24dp"
+                        android:textColor="@color/grey_10"
+                        android:textSize="16sp"
+                        android:visibility="gone"
+                        app:cardBackgroundColor="#EFEFEF"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical"
+                            android:text="No Data found!" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/cat_near_brnd_recycler"
+                        android:layout_marginHorizontal="22dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:paddingBottom="40dp"
+                        />
+
+
+                </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+        </ScrollView>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -116,6 +116,36 @@
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:id="@+id/gender_radio_create_profile">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:id="@+id/male_radio_inf"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:layout_marginStart="12dp"
+                    android:id="@+id/female_radio_inf"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Other"
+                    android:layout_marginStart="12dp"
+                    android:id="@+id/other_radio_inf"/>
+
+        </RadioGroup>
+
+
         <Button
             android:id="@+id/next_btn"
             android:layout_width="wrap_content"
@@ -123,6 +153,7 @@
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
             android:text="NEXT" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 

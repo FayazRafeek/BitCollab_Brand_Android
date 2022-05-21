@@ -43,7 +43,9 @@ public class ProfileViewModel extends ViewModel {
     public LiveData<Integer> getFragPosLive() {
         return fragPosLive;
     }
-    public void nextPage(){fragPosLive.setValue(fragPosLive.getValue() + 1);}
+    public void nextPage(){
+        fragPosLive.setValue(fragPosLive.getValue() + 1);
+    }
     public void prevPage(){fragPosLive.setValue(fragPosLive.getValue() -1);}
     //
 
@@ -51,30 +53,46 @@ public class ProfileViewModel extends ViewModel {
     public Influencer influencer = new Influencer();
     public Bitmap profImgData, coverImgData;
     public Boolean IS_BASIC_SET = false, IS_CONTACT_SET = false, IS_SOCIAL_SET = false, IS_BIO_SET = false;
-    public void setInfProfBasicData(String displayName, String dob, Bitmap profileImgData, Bitmap coverImgData){
+    public void setInfProfBasicData(String displayName, String dob,String gender, Bitmap profileImgData, Bitmap coverImgData){
         influencer.setDisplayName(displayName);
         influencer.setDob(dob);
+        influencer.setGender(gender);
         this.profImgData = profileImgData; this.coverImgData = coverImgData;
         uploadInfImages();
 
-        Palette.from(coverImgData).generate(palette -> {
-            int vibrant = palette.getDarkVibrantColor(0x000000); // <=== color you want
-            influencer.setPalletColor(vibrant);
+        Bitmap cropBit =  Bitmap.createBitmap(coverImgData, 0, 0, coverImgData.getWidth(), 10);
+        Palette.from(cropBit).generate(palette -> {
+            int vibrant = palette.getDominantColor(0x000000); // <=== color you want
+            influencer.setPalletColor(vibrant + "");
         });
 
         IS_BASIC_SET = true;
     }
+
+    public void setInfluencer(Influencer influencer) {
+        this.influencer = influencer;
+    }
+
     public void setInfProfContactdata(String phone, String address, String country, String state, String pincode){
         influencer.setAddress(address);
         influencer.setPhone(phone);
         influencer.setCountry(country);
         influencer.setState(state);
-        influencer.setPincode(pincode);
+        influencer.setPincode(Integer.valueOf(pincode));
         IS_CONTACT_SET = true;
     }
-    public void setInfProfSocialData(String insta, String yout){
+    public void setInfProfSocialData(String insta, String yout, String twitt){
         influencer.setInstaId(insta);
         influencer.setYoutube(yout);
+        influencer.setTwitter(twitt);
+        ArrayList<String> socials = new ArrayList<>();
+        if(insta != null && !insta.equals(""))
+            socials.add("Instagram");
+        if(yout != null && !yout.equals(""))
+            socials.add("Youtube");
+        if(twitt != null && !twitt.equals(""))
+            socials.add("Twitter");
+        influencer.setSocials(socials);
         IS_SOCIAL_SET = true;
     }
     public void setInfBioData(String bio, List<String> category){
@@ -95,8 +113,10 @@ public class ProfileViewModel extends ViewModel {
         brnLogoImgBit = logoImage;
         brnCoverimgBit = coverImgData;
 
-        Palette.from(brnCoverimgBit).generate(palette -> {
-            int vibrant = palette.getDarkVibrantColor(0x000000); // <=== color you want
+
+        Bitmap cropBit =  Bitmap.createBitmap(coverImgData, 0, 0, coverImgData.getWidth(), 10);
+        Palette.from(cropBit).generate(palette -> {
+            int vibrant = palette.getDominantColor(0x000000); // <=== color you want
             brand.setPalleteColor(vibrant);
         });
 
@@ -108,7 +128,7 @@ public class ProfileViewModel extends ViewModel {
         brand.setPhone(phone);
         brand.setCountry(country);
         brand.setState(state);
-        brand.setPincode(pincode);
+        brand.setPincode(Integer.valueOf(pincode));
         IS_BRN_CONTACT_SET = true;
     }
 
@@ -119,6 +139,9 @@ public class ProfileViewModel extends ViewModel {
         IS_BRN_BIO_SET = false;
     }
 
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
 
     //Verify Accounts
     public LiveData<BasicResponse> verifyInstaAccount(String userName){
@@ -127,6 +150,10 @@ public class ProfileViewModel extends ViewModel {
     }
     public LiveData<BasicResponse> verifyYoutubeAccount(String channel){
         LiveData<BasicResponse> resp = userDataRepo.verifyYoutubeAccount(channel);
+        return resp;
+    }
+    public LiveData<BasicResponse> verifyTwitterAccount(String channel){
+        LiveData<BasicResponse> resp = userDataRepo.verifyTwitterAccount(channel);
         return resp;
     }
     //

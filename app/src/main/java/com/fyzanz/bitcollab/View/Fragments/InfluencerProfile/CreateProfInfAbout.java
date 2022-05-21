@@ -29,6 +29,12 @@ public class CreateProfInfAbout extends Fragment {
     ProfileViewModel viewModel;
     ProfCatSelectAdapter profCatSelectAdapter;
 
+    String type = "CREATE";
+
+    public CreateProfInfAbout(String type) {
+        this.type = type;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +47,9 @@ public class CreateProfInfAbout extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(getActivity()).get(ProfileViewModel.class);
+
+        if(viewModel.IS_BIO_SET)
+            updateUi();
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +66,9 @@ public class CreateProfInfAbout extends Fragment {
         });
 
         setupCatRecycler();
+
+        if(type.equals("EDIT"))
+            binding.nextBtn.setText("SUBMIT");
     }
 
     void gatherData(){
@@ -72,6 +84,10 @@ public class CreateProfInfAbout extends Fragment {
         profCatSelectAdapter = new ProfCatSelectAdapter(categories,getContext());
         binding.infProfCatRecycler.setAdapter(profCatSelectAdapter);
         binding.infProfCatRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
+        if(type.equals("EDIT")){
+            profCatSelectAdapter.setAllSelection(viewModel.influencer.getCategory());
+        }
     }
 
     public static class ProfCatSelectAdapter extends RecyclerView.Adapter<ProfCatSelectAdapter.ProfCatSelectVH> {
@@ -119,7 +135,15 @@ public class CreateProfInfAbout extends Fragment {
         }
 
         public List<String> getSelecCat(){return selecCat;}
+        public void clearSelection() {
+            selecCat = new ArrayList<>();
+            notifyDataSetChanged();
+        }
 
+        public void setAllSelection(List<String> cats){
+            this.selecCat = cats;
+            notifyDataSetChanged();
+        }
         @Override
         public int getItemCount() {
             return categories.size();
@@ -132,5 +156,10 @@ public class CreateProfInfAbout extends Fragment {
                 this.binding = binding;
             }
         }
+    }
+
+    void updateUi(){
+
+        binding.bioInp.setText(viewModel.influencer.getBio());
     }
 }

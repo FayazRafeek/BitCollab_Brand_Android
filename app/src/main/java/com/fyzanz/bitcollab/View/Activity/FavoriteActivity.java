@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fyzanz.bitcollab.Model.Data.Brand;
-import com.fyzanz.bitcollab.Model.Data.FavInfluencer;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.View.Adapter.BrandListAdapter;
@@ -44,8 +43,11 @@ public class FavoriteActivity extends AppCompatActivity implements InfluencerLis
             }
         });
 
-        getInfFavList();
-        getBrandFavList();
+        if(AppSingleton.getInstance().getUSER_TYPE().equals("INFLUENCER"))
+            getBrandFavList();
+        else
+            getInfFavList();
+
     }
 
     InfluencerListAdapter influencerListAdapter;
@@ -65,8 +67,8 @@ public class FavoriteActivity extends AppCompatActivity implements InfluencerLis
 
         if(brandListAdapter == null){
             brandListAdapter = new BrandListAdapter(this,this);
-            binding.favBrandRecycler.setAdapter(brandListAdapter);
-            binding.favBrandRecycler.setLayoutManager(new LinearLayoutManager(this));
+            binding.favRecycler.setAdapter(brandListAdapter);
+            binding.favRecycler.setLayoutManager(new LinearLayoutManager(this));
         }
 
         brandListAdapter.updateList(brands);
@@ -75,29 +77,20 @@ public class FavoriteActivity extends AppCompatActivity implements InfluencerLis
     @Override
     protected void onResume() {
         super.onResume();
-        getInfFavList();
+        if(AppSingleton.getInstance().getUSER_TYPE().equals("INFLUENCER"))
+            getBrandFavList();
+        else
+            getInfFavList();
     }
 
     void getInfFavList(){
-
-        List<FavInfluencer> favInfluencers = mainViewModel.getAllFavInfluencer();
-        List<Influencer> infList = new ArrayList<>();
-
-        if(favInfluencers != null)
-        for (FavInfluencer fav : favInfluencers){
-            Influencer inf = new Influencer();
-            inf.setDataFromFav(fav);
-            infList.add(inf);
-        }
-
+        List<Influencer> infList = mainViewModel.getAllFavInfluencer();
         updateFavRecycler(infList);
     }
 
     void getBrandFavList(){
-
         List<Brand> list = mainViewModel.getAllFavBrands();
-        if(list != null)
-            updateBrandFavRecycler(list);
+        updateBrandFavRecycler(list);
     }
 
     @Override

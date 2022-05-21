@@ -11,7 +11,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.fyzanz.bitcollab.View.Fragments.ChatListFragment;
-import com.fyzanz.bitcollab.View.Fragments.RequestListFragment;
+import com.fyzanz.bitcollab.View.Fragments.ReqReceiveFragment;
+import com.fyzanz.bitcollab.View.Fragments.ReqSentFragment;
 import com.fyzanz.bitcollab.databinding.ActivityMessageBinding;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -42,7 +43,7 @@ public class MessageActivity extends AppCompatActivity {
         binding.msgPager.setAdapter(messageFragStateAdapter);
 
         new TabLayoutMediator(binding.msgTab, binding.msgPager,
-                (tab, position) -> tab.setText(position == 0 ? "CHAT" : "REQUEST")
+                (tab, position) -> tab.setText(position == 0 ? "SENT" : "RECEIVED")
         ).attach();
     }
 
@@ -53,15 +54,15 @@ public class MessageActivity extends AppCompatActivity {
         }
 
 
-        ChatListFragment chatListFragment; RequestListFragment requestListFragment;
+        ReqReceiveFragment chatListFragment; ReqSentFragment requestListFragment;
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            if(position == 0){
-                if(chatListFragment == null) chatListFragment = new ChatListFragment();
+            if(position == 1){
+                if(chatListFragment == null) chatListFragment = new ReqReceiveFragment();
                 return chatListFragment;
             } else {
-                if(requestListFragment == null) requestListFragment = new RequestListFragment();
+                if(requestListFragment == null) requestListFragment = new ReqSentFragment();
                 return requestListFragment;
             }
         }

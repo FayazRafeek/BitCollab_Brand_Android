@@ -44,6 +44,10 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
+        if(authViewModel.getUSER_TYPE().equals("INFLUENCER"))
+            binding.registerBtn.setText("REGISTER AS INFLUENCER");
+        else
+            binding.registerBtn.setText("REGISTER AS BRAND");
 
         // Button Click Handles
         binding.loginSwitchBtn.setOnClickListener(new View.OnClickListener() {

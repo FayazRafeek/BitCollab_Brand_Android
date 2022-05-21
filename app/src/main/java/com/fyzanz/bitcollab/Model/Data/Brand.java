@@ -33,7 +33,7 @@ public class Brand {
     @ColumnInfo(name = "state")
     String state;
     @ColumnInfo(name = "pincode")
-    String pincode;
+    Integer pincode;
     @ColumnInfo(name = "phone")
     String phone;
     @ColumnInfo(name = "bio")
@@ -44,6 +44,8 @@ public class Brand {
     ArrayList<String> categories;
     @ColumnInfo(name = "palleteColor")
     Integer palleteColor;
+    @ColumnInfo(name = "popular")
+    Integer popular;
 
     public Brand() {
     }
@@ -121,11 +123,11 @@ public class Brand {
         this.state = state;
     }
 
-    public String getPincode() {
+    public Integer getPincode() {
         return pincode;
     }
 
-    public void setPincode(String pincode) {
+    public void setPincode(Integer pincode) {
         this.pincode = pincode;
     }
 
@@ -175,5 +177,13 @@ public class Brand {
 
     public void setPalleteColor(Integer palleteColor) {
         this.palleteColor = palleteColor;
+    }
+
+    public Integer getPopular() {
+        return popular;
+    }
+
+    public void setPopular(Integer popular) {
+        this.popular = popular;
     }
 }

@@ -43,7 +43,7 @@ public class BrandListAdapter extends RecyclerView.Adapter<BrandListAdapter.Bran
 
         Glide.with(context)
                 .load(brand.getLogoImgUrl())
-                .centerCrop()
+               .centerCrop()
                 .into(holder.binding.brandLogoImage);
 
         String location = brand.getState() + ", " + brand.getCountry();
@@ -77,7 +77,7 @@ public class BrandListAdapter extends RecyclerView.Adapter<BrandListAdapter.Bran
 
     @Override
     public int getItemCount() {
-        return brands.size();
+        return brands == null ? 0 : brands.size();
     }
 
     public static class BrandListVH extends RecyclerView.ViewHolder{

@@ -80,22 +80,47 @@
         android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@id/pop_inf_name" />
 
 
-    <TextView
-        android:id="@+id/pop_inf_follows"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/social_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
-        android:text="200 M"
-        android:textColor="@color/grey_10"
-        android:textSize="12dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pop_inf_cat" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@id/pop_inf_cat">
+
+        <ImageView
+            android:id="@+id/yout_ic"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/ic_youtube" />
+
+        <ImageView
+            android:id="@+id/insta_ic"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:visibility="gone"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/ic_insta" />
+
+        <ImageView
+            android:id="@+id/twit_ic"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:visibility="gone"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_twitter" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,8 @@ import android.view.animation.Transformation;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.fyzanz.bitcollab.Model.Data.Brand;
+import com.fyzanz.bitcollab.Model.Data.Campaign;
+import com.fyzanz.bitcollab.Model.Data.CollabRequest;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 
 import java.util.ArrayList;
@@ -107,4 +109,25 @@ public class AppSingleton {
         this.selectedBrand = selectedBrand;
     }
     //
+    //Selected Campaign
+    Campaign selectedCampaign;
+
+    public Campaign getSelectedCampaign() {
+        return selectedCampaign;
+    }
+
+    public void setSelectedCampaign(Campaign selectedCampaign) {
+        this.selectedCampaign = selectedCampaign;
+    }
+
+    //Selelcted request
+    CollabRequest selectedReq;
+
+    public CollabRequest getSelectedReq() {
+        return selectedReq;
+    }
+
+    public void setSelectedReq(CollabRequest selectedReq) {
+        this.selectedReq = selectedReq;
+    }
 }

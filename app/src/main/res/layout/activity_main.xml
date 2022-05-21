@@ -55,12 +55,14 @@
                 <TextView
                     android:id="@+id/search_label"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Search something"
+                    android:textColor="@color/grey_5"
                     android:textSize="16sp"
                     android:textStyle="normal"
-                    android:textColor="@color/grey_5"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/profile_image"
                     app:layout_constraintStart_toEndOf="@+id/menu_toggle"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,6 +150,56 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16sp"
                     />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/new_campaign_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:visibility="gone"
+                    android:layout_marginHorizontal="24dp"
+                    android:layout_marginTop="12sp"
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="@color/lightGreen">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/camp_icon"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:scaleType="centerCrop"
+                            android:layout_marginStart="16dp"
+                            android:src="@drawable/ic_campaign"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Create new marketing campaign"
+                            android:textSize="16dp"
+                            android:textColor="@color/black_3"
+                            android:textStyle="bold"
+                            android:layout_marginStart="12sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/camp_icon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/camp_next_icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_next"
+                            android:layout_marginEnd="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -238,16 +290,18 @@
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
 
+
+
+
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/main_frag_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </ScrollView>
-
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/main_frag_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

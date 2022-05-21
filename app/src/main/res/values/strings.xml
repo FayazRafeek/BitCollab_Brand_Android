@@ -6,4 +6,6 @@
     <string name="AUTH_PREF_FILE">com.fyzanz.bitcollab.AUTH_PREF_FILE</string>
     <string name="IS_LOGIN_KEY">IS_AUTHENTICATED</string>
     <string name="ROOM_DB_NAME">BIT_COLLAB_DB</string>
+
+    <string name="USER_DATA_PREF_FILE">USER_DATA_PREF</string>
 </resources>

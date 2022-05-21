@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#99FFB6</color>
+    <color name="lightGreen">#B3FFC8</color>
     <color name="darkGreen">#269344</color>
     <color name="transparent">#00000000</color>
 
@@ -19,6 +20,8 @@
     //Bottom navigation
     <color name="bottom_nav_back">#191919</color>
     <color name="bottom_nav_icon_color">#B8FFCC</color>
+
+    <color name="card_select_color">#D9FFE4</color>
 
     //Theme colors
     <color name="orange_100">#FFFBF8</color>

@@ -2,13 +2,11 @@ package com.fyzanz.bitcollab.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.fyzanz.bitcollab.Model.Data.BasicResponse;
 import com.fyzanz.bitcollab.Model.Data.Brand;
 import com.fyzanz.bitcollab.Model.Data.Category;
-import com.fyzanz.bitcollab.Model.Data.FavInfluencer;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 import com.fyzanz.bitcollab.Model.Repository.MainRepo;
 import com.fyzanz.bitcollab.Model.Repository.UserDataRepo;
@@ -86,7 +84,7 @@ public class MainViewModel extends ViewModel {
     public List<Brand> getAllFavBrands(){
         return mainRepo.getFavBrands();
     }
-    public List<FavInfluencer> getAllFavInfluencer(){
+    public List<Influencer> getAllFavInfluencer(){
         return mainRepo.getFavInfluencers();
     }
 
@@ -104,5 +102,43 @@ public class MainViewModel extends ViewModel {
         mainRepo.removeBrandFromfav(brand);
     }
 
+    //
 
+
+
+    //Category
+    public LiveData<BasicResponse> fetchPopCatInf(String category){
+        return mainRepo.getPopCatInfluencer(category);
+    }
+
+    public LiveData<BasicResponse> fetchNearbyCatInf(String category){
+        return mainRepo.getNearbyCatInfluencer(category);
+    }
+
+    public LiveData<BasicResponse> fetchCatInfCount(String category){
+        return mainRepo.getCatInfluencerCount(category);
+    }
+
+    public LiveData<BasicResponse> fetchPopCatBrn(String category){
+        return mainRepo.getPopCatBrand(category);
+    }
+
+    public LiveData<BasicResponse> fetchNearbyCatBrand(String category){
+        return mainRepo.getNearbyCatBrand(category);
+    }
+
+    public LiveData<BasicResponse> fetchCatBrandCount(String category){
+        return mainRepo.getCatBrandCount(category);
+    }
+    //
+
+
+    //Campaign
+
+    public LiveData<BasicResponse> fetchRecCampaign(){
+        return mainRepo.fetchRecCampaigns();
+    }
+    public LiveData<BasicResponse> fetchBrnCampaign(String brandId){
+        return mainRepo.fetchBrnCampaigns(brandId);
+    }
 }

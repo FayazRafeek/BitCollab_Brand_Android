@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.fyzanz.bitcollab.Model.Data.Brand;
-import com.fyzanz.bitcollab.Model.Data.FavInfluencer;
 
 import java.util.List;
 

@@ -1,48 +1,57 @@
 package com.fyzanz.bitcollab.Model.Data;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.ArrayList;
 
+@Entity(tableName = "favInfluencers")
 public class Influencer {
 
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "infId")
     String infId;
+    @ColumnInfo(name = "email")
     String email;
-    Boolean isPopular;
-    String firstName, lastName;
-    String profileUrl, coverImgUrl;
-
+    @ColumnInfo(name = "gender")
+    String gender;
+    @ColumnInfo(name = "profileUrl")
+    String profileUrl;
+    @ColumnInfo(name = "coverImgUrl")
+    String coverImgUrl;
+    @ColumnInfo(name = "category")
     ArrayList<String> category;
-
+    @ColumnInfo(name = "displayName")
     String displayName;
-    String dob;
-    String phone, address, country, state, pincode;
-
-    String instaId, youtube;
+    @ColumnInfo(name = "instaId")
+    String instaId;
+    @ColumnInfo(name = "youtube")
+    String youtube;
+    String twitter;
+    @ColumnInfo(name = "bio")
     String bio;
+    @ColumnInfo(name = "palleteColor")
+    String palletColor;
+    @ColumnInfo(name = "dob")
+    String dob;
+    @ColumnInfo(name = "phone")
+    String phone;
+    @ColumnInfo(name = "address")
+    String address;
+    @ColumnInfo(name = "country")
+    String country;
+    @ColumnInfo(name = "state")
+    String state;
+    @ColumnInfo(name = "pincode")
+    Integer pincode;
+    @ColumnInfo(name = "popular")
+    Integer popular;
+    @ColumnInfo(name = "socials")
+    ArrayList<String> socials;
 
-    Integer palletColor;
-
-
-    public Influencer(String infId, String email, Boolean isPopular, String firstName, String lastName, String profileUrl, ArrayList<String> category) {
-        this.infId = infId;
-        this.email = email;
-        this.isPopular = isPopular;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.profileUrl = profileUrl;
-        this.category = category;
-    }
-
-    public Influencer(String infId, Boolean isPopular, String firstName) {
-        this.infId = infId;
-        this.isPopular = isPopular;
-        this.firstName = firstName;
-    }
-
-    public Influencer(String infId, String firstName, String lastName) {
-        this.infId = infId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public Influencer() {
     }
@@ -61,30 +70,6 @@ public class Influencer {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Boolean getPopular() {
-        return isPopular;
-    }
-
-    public void setPopular(Boolean popular) {
-        isPopular = popular;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getProfileUrl() {
@@ -151,11 +136,11 @@ public class Influencer {
         this.state = state;
     }
 
-    public String getPincode() {
+    public Integer getPincode() {
         return pincode;
     }
 
-    public void setPincode(String pincode) {
+    public void setPincode(Integer pincode) {
         this.pincode = pincode;
     }
 
@@ -192,25 +177,44 @@ public class Influencer {
         this.coverImgUrl = coverImgUrl;
     }
 
-    public Integer getPalletColor() {
+    public String getPalletColor() {
         return palletColor;
     }
 
-    public void setPalletColor(Integer palletColor) {
+    public void setPalletColor(String palletColor) {
         this.palletColor = palletColor;
     }
 
+    public Integer getPopular() {
+        return popular;
+    }
 
-    public void setDataFromFav(FavInfluencer fav){
-        this.infId = fav.getInfId();
-        this.displayName = fav.getDisplayName();
-        this.email = fav.getEmail();
-        this.profileUrl = fav.getProfileUrl();
-        this.coverImgUrl = fav.getCoverImgUrl();
-        this.bio = fav.getBio();
-        this.category = fav.getCategory();
-        this.instaId = fav.getInstaId();
-        this.youtube = fav.getYoutube();
+    public void setPopular(Integer popular) {
+        this.popular = popular;
+    }
+
+    public ArrayList<String> getSocials() {
+        return socials;
+    }
+
+    public void setSocials(ArrayList<String> socials) {
+        this.socials = socials;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
     }
 }
 

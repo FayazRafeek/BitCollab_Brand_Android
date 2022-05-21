@@ -1,8 +1,6 @@
 package com.fyzanz.bitcollab.Model.Repository;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,8 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.fyzanz.bitcollab.BaseApplication;
 import com.fyzanz.bitcollab.Model.Data.BasicResponse;
 import com.fyzanz.bitcollab.Model.Data.Brand;
+import com.fyzanz.bitcollab.Model.Data.Campaign;
 import com.fyzanz.bitcollab.Model.Data.Category;
-import com.fyzanz.bitcollab.Model.Data.FavInfluencer;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 import com.fyzanz.bitcollab.Model.Room.AppDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -77,22 +75,29 @@ public class MainRepo {
         BasicResponse resp = new BasicResponse("LOADING");
         MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
 
-        firestore.collection("Influencers")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            List<Influencer> infList = new ArrayList<>();
-                            for (DocumentSnapshot doc : task.getResult())
-                                infList.add( doc.toObject(Influencer.class));
-                            resp.setStatus("SUCCESS"); resp.setData(infList);
-                        } else
-                            resp.setStatus("ERROR"); resp.setError(task.getException());
+        try {
+            firestore.collection("Influencers")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
 
-                        live.setValue(resp);
-                    }
-                });
+                                List<Influencer> infList = new ArrayList<>();
+                                for (DocumentSnapshot doc : task.getResult())
+                                    infList.add(doc.toObject(Influencer.class));
+                                resp.setStatus("SUCCESS"); resp.setData(infList);
+                            } else
+                                resp.setStatus("ERROR"); resp.setError(task.getException());
+
+                            live.setValue(resp);
+                        }
+                    });
+        } catch (RuntimeException e){
+            resp.setStatus("ERROR"); resp.setError(e);
+            live.setValue(resp);
+        }
+
 
         return live;
     }
@@ -128,21 +133,17 @@ public class MainRepo {
 
     //Influencer fav handle
     public Boolean checkIsFav(String infId){
-        FavInfluencer fav = appDatabase.influencerDao().getFavInfById(infId);
-        return fav != null;
+        return appDatabase.influencerDao().getFavInfById(infId) != null;
     }
-    public List<FavInfluencer> getFavInfluencers(){
+
+    public List<Influencer> getFavInfluencers(){
         return appDatabase.influencerDao().getAll();
     }
     public void addToFav(Influencer influencer){
-        FavInfluencer favInfluencer = new FavInfluencer();
-        favInfluencer.setData(influencer);
-        appDatabase.influencerDao().insert(favInfluencer);
+        appDatabase.influencerDao().insert(influencer);
     }
     public void removeFromfav(Influencer influencer){
-        FavInfluencer favInfluencer = new FavInfluencer();
-        favInfluencer.setData(influencer);
-        appDatabase.influencerDao().delete(favInfluencer);
+        appDatabase.influencerDao().delete(influencer);
     }
     //
     public Boolean checkBrnIsFav(String brandId){
@@ -161,5 +162,250 @@ public class MainRepo {
 
     //
 
+
+    //Category Influencer Fetching
+    public LiveData<BasicResponse> getPopCatInfluencer(String category){
+
+        Query query = firestore.collection("Influencers").whereArrayContains("category",category).orderBy("popular").limit(8);
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resp.setStatus("SUCCESS");
+                            List<Influencer> list = new ArrayList<>();
+                            for(DocumentSnapshot doc : task.getResult())
+                                list.add(doc.toObject(Influencer.class));
+                            resp.setData(list);
+                        } else {
+                            resp.setStatus("ERROR"); resp.setError(task.getException());
+                        }
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    public LiveData<BasicResponse> getNearbyCatInfluencer(String category){
+
+        int pincode = 682002;
+
+        Query query = firestore.collection("Influencers").whereArrayContains("category",category)
+                .whereGreaterThanOrEqualTo("pincode",pincode - 100).whereLessThanOrEqualTo("pincode",pincode + 100)
+                .limit(20);
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resp.setStatus("SUCCESS");
+                            List<Influencer> list = new ArrayList<>();
+                            for(DocumentSnapshot doc : task.getResult())
+                                list.add(doc.toObject(Influencer.class));
+                            resp.setData(list);
+                        } else {
+                            resp.setStatus("ERROR"); resp.setError(task.getException());
+                        }
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    public LiveData<BasicResponse> getCatInfluencerCount(String category){
+
+        Query query = firestore.collection("Influencers").whereArrayContains("category",category);
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resp.setStatus("SUCCESS");
+                            if(task.getResult().isEmpty())
+                                resp.setData(0);
+                            else resp.setData(task.getResult().size());
+                        } else {
+                            resp.setStatus("ERROR"); resp.setError(task.getException());
+                        }
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    //
+
+    //Category Brand Fetching
+
+    public LiveData<BasicResponse> getPopCatBrand(String category){
+
+        Query query = firestore.collection("Brands").whereArrayContains("categories",category).orderBy("popular").limit(8);
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resp.setStatus("SUCCESS");
+                            List<Brand> list = new ArrayList<>();
+                            for(DocumentSnapshot doc : task.getResult())
+                                list.add(doc.toObject(Brand.class));
+                            resp.setData(list);
+                        } else {
+                            resp.setStatus("ERROR"); resp.setError(task.getException());
+                        }
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    public LiveData<BasicResponse> getNearbyCatBrand(String category){
+
+        int pincode = 682002;
+
+        Query query = firestore.collection("Brands").whereArrayContains("categories",category)
+                .whereGreaterThanOrEqualTo("pincode",pincode - 100).whereLessThanOrEqualTo("pincode",pincode + 100)
+                .limit(20);
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resp.setStatus("SUCCESS");
+                            List<Brand> list = new ArrayList<>();
+                            for(DocumentSnapshot doc : task.getResult())
+                                list.add(doc.toObject(Brand.class));
+                            resp.setData(list);
+                        } else {
+                            resp.setStatus("ERROR"); resp.setError(task.getException());
+                        }
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    public LiveData<BasicResponse> getCatBrandCount(String category){
+
+        Query query = firestore.collection("Brands").whereArrayContains("categories",category);
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        query.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            resp.setStatus("SUCCESS");
+                            if(task.getResult().isEmpty())
+                                resp.setData(0);
+                            else resp.setData(task.getResult().size());
+                        } else {
+                            resp.setStatus("ERROR"); resp.setError(task.getException());
+                        }
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+
+    //Campaigms
+    public LiveData<BasicResponse> fetchRecCampaigns(){
+
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        firestore
+                .collection("Campaigns")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            List<Campaign> campaigns = new ArrayList<>();
+                            for(DocumentSnapshot doc : task.getResult()){
+                                Campaign campaign = doc.toObject(Campaign.class);
+                                campaigns.add(campaign);
+                            }
+                            Log.d(TAG, "onComplete: Campaign success " + campaigns.size());
+                            resp.setData(campaigns);
+                            resp.setStatus("SUCCESS");
+
+                        } else resp.setStatus("ERROR");
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    public LiveData<BasicResponse> fetchBrnCampaigns(String brandId){
+
+        Log.d(TAG, "fetchBrnCampaigns: Brand Id camp " + brandId);
+        BasicResponse resp = new BasicResponse("LOADING");
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>(resp);
+
+        firestore
+                .collection("Campaigns")
+                .whereEqualTo("brandId",brandId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            List<Campaign> campaigns = new ArrayList<>();
+                            for(DocumentSnapshot doc : task.getResult()){
+                                Campaign campaign = doc.toObject(Campaign.class);
+                                campaigns.add(campaign);
+                            }
+                            Log.d(TAG, "onComplete: Campaign success " + campaigns.size());
+                            resp.setData(campaigns);
+                            resp.setStatus("SUCCESS");
+
+                        } else resp.setStatus("ERROR");
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
 
 }

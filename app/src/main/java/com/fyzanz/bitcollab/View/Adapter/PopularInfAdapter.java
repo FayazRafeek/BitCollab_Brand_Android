@@ -44,6 +44,10 @@ public class PopularInfAdapter extends RecyclerView.Adapter<PopularInfAdapter.Po
         Influencer item = items.get(position);
 
         String fullName = item.getDisplayName();
+        if(fullName.length() > 13){
+            String[] names = fullName.split(" ");
+            fullName = names[0];
+        }
         holder.binding.popInfName.setText(fullName);
 
         StringBuilder catSt = new StringBuilder();
@@ -69,6 +73,14 @@ public class PopularInfAdapter extends RecyclerView.Adapter<PopularInfAdapter.Po
                 .load(item.getProfileUrl())
                 .centerCrop()
                 .into(holder.binding.popInfImage);
+        }
+
+        for(String social : item.getSocials()){
+            switch (social){
+                case "Instagram" : holder.binding.instaIc.setVisibility(View.VISIBLE); break;
+                case "Youtube" : holder.binding.youtIc.setVisibility(View.VISIBLE); break;
+                case "Twitter" : holder.binding.twitIc.setVisibility(View.VISIBLE); break;
+            }
         }
     }
 

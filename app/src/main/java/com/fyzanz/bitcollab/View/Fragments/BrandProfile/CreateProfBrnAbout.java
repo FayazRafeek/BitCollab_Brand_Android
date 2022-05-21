@@ -24,6 +24,12 @@ public class CreateProfBrnAbout extends Fragment {
     FragmentCreatePrfBrnAboutBinding binding;
     ProfileViewModel profileViewModel;
 
+    String type = "CREATE";
+
+    public CreateProfBrnAbout(String type) {
+        this.type = type;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,12 +65,21 @@ public class CreateProfBrnAbout extends Fragment {
     CreateProfInfAbout.ProfCatSelectAdapter profCatSelectAdapter;
     void setupCatRecycler(){
         List<String> categories = new ArrayList<>();
-        categories.add("Skin Care");categories.add("Tourism");categories.add("Food");categories.add("Film");categories.add("Creative");categories.add("Sports");
-        categories.add("Fitness");
+        categories.add("Skin Care");
         categories.add("Fashion");
+        categories.add("Tourism");
+        categories.add("Food");
+        categories.add("Film");
+        categories.add("Creative");
+        categories.add("Sports");
+        categories.add("Fitness");
         profCatSelectAdapter = new CreateProfInfAbout.ProfCatSelectAdapter(categories,getContext());
         binding.infProfCatRecycler.setAdapter(profCatSelectAdapter);
         binding.infProfCatRecycler.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+
+
+        if(type.equals("EDIT"))
+            profCatSelectAdapter.setAllSelection(profileViewModel.brand.getCategories());
     }
 
     void gatherData(){
@@ -79,5 +94,8 @@ public class CreateProfBrnAbout extends Fragment {
         Brand brand = profileViewModel.brand;
         binding.bioInp.setText(brand.getBio());
         binding.websiteInp.setText(brand.getWebsiteUrl());
+
+        if(type.equals("EDIT"))
+            binding.nextBtn.setText("SUBMIT");
     }
 }

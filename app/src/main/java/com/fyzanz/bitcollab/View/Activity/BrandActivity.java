@@ -1,27 +1,34 @@
 package com.fyzanz.bitcollab.View.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.fyzanz.bitcollab.Model.Data.BasicResponse;
 import com.fyzanz.bitcollab.Model.Data.Brand;
+import com.fyzanz.bitcollab.Model.Data.Campaign;
 import com.fyzanz.bitcollab.Model.Utils.AppSingleton;
 import com.fyzanz.bitcollab.R;
+import com.fyzanz.bitcollab.View.Adapter.CampaignListAdapter;
 import com.fyzanz.bitcollab.ViewModel.MainViewModel;
 import com.fyzanz.bitcollab.databinding.ActivityBrandBinding;
 import com.fyzanz.bitcollab.databinding.BrandCatItemBinding;
@@ -29,11 +36,13 @@ import com.fyzanz.bitcollab.databinding.BrandCatItemBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BrandActivity extends AppCompatActivity {
+public class BrandActivity extends AppCompatActivity implements CampaignListAdapter.CampaignClick {
 
     ActivityBrandBinding binding;
     Brand brand;
     MainViewModel mainViewModel;
+
+    String usertype;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,9 +62,13 @@ public class BrandActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if(brand == null) fetchBrand();
-        else updateUi();
-
-
+        else {
+            updateUi();
+            IS_FAV = mainViewModel.checkBrnInFav(brand.getBrandId());
+            if (IS_FAV){
+                favActiveUi();
+            } else favInactiveUi();
+        };
 
         binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,12 +77,40 @@ public class BrandActivity extends AppCompatActivity {
             }
         });
 
-        IS_FAV = mainViewModel.checkInfInFav(brand.getBrandId());
 
-        if (IS_FAV){
-            favActiveUi();
-        } else favInactiveUi();
 
+        binding.collabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppSingleton.getInstance().setSelectedBrand(brand);
+                Toast.makeText(BrandActivity.this, AppSingleton.getInstance().getSelectedBrand().getBrandName(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BrandActivity.this,NewCollabRequestActivity.class));
+            }
+        });
+
+
+        usertype = AppSingleton.getInstance().getUSER_TYPE();
+        if(usertype.equals("BRAND")){
+            binding.brandAction.setVisibility(View.GONE);
+        } else binding.brandAction.setVisibility(View.VISIBLE);
+
+        if(getIntent().getBooleanExtra("PROFILE_VIEW",false)){
+            binding.brnProfCampLabel.setVisibility(View.GONE);
+            binding.homeCampaignRecycler.setVisibility(View.GONE);
+            binding.campaignShimmer.setVisibility(View.GONE);
+
+            binding.editBtn.setVisibility(View.VISIBLE);
+        } else fetchCampaigns();
+
+        binding.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BrandActivity.this,CreateProfileActivity.class);
+                intent.putExtra("EDIT",true);
+                AppSingleton.getInstance().setSelectedBrand(brand);
+                startActivity(intent);
+            }
+        });
     }
 
     void fetchBrand(){
@@ -107,6 +148,7 @@ public class BrandActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 
@@ -139,6 +181,57 @@ public class BrandActivity extends AppCompatActivity {
         binding.favoriteBtn.setBackgroundColor(ContextCompat.getColor(this,R.color.orange_100));
     }
 
+
+
+    void fetchCampaigns(){
+
+        mainViewModel.fetchBrnCampaign(brand.getBrandId())
+                .observe(this, new Observer<BasicResponse>() {
+                    @Override
+                    public void onChanged(BasicResponse basicResponse) {
+                        switch (basicResponse.getStatus()){
+
+                            case "LOADING" : showCampLoading(); break;
+                            case "SUCCESS" : updateCamList((List<Campaign>) basicResponse.getData()); stopcampLoad(); break;
+                            case "ERROR" : stopcampLoad(); break;
+                        }
+                    }
+                });
+    }
+
+
+    private static final String TAG = "333";
+    CampaignListAdapter campaignListAdapter;
+    void updateCamList(List<Campaign> list){
+
+        Log.d(TAG, "updateCamList: Campaings " + list.size());
+        if(campaignListAdapter == null){
+            campaignListAdapter = new CampaignListAdapter(this,"HOME",this);
+            binding.homeCampaignRecycler.setAdapter(campaignListAdapter);
+            binding.homeCampaignRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false));
+        }
+
+        campaignListAdapter.updateList(list);
+
+    }
+
+    void showCampLoading(){
+        binding.campaignShimmer.setVisibility(View.VISIBLE);
+        binding.campaignShimmer.startShimmer();
+        binding.brnProfCampLabel.setVisibility(View.VISIBLE);
+    }
+
+    void stopcampLoad(){
+        binding.campaignShimmer.setVisibility(View.GONE);
+        binding.campaignShimmer.stopShimmer();
+        binding.homeCampaignRecycler.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onCampaignClick(Campaign campaign) {
+        AppSingleton.getInstance().setSelectedCampaign(campaign);
+        startActivity(new Intent(this, CampaignDetailActivity.class));
+    }
 
 
     public static class BrandCatAdapter extends RecyclerView.Adapter<BrandCatAdapter.BrandCatVH>{

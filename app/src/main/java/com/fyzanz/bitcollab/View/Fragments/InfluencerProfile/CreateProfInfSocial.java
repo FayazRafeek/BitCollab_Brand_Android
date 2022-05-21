@@ -60,7 +60,7 @@ public class CreateProfInfSocial extends Fragment {
     }
 
 
-    Boolean IS_INSTA_EXP = false, IS_YOUT_EXP = false;
+    Boolean IS_INSTA_EXP = false, IS_YOUT_EXP = false, IS_TWIT_EXP = false;
     void setUpClickAndAnims(){
         binding.instaClickParent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +84,17 @@ public class CreateProfInfSocial extends Fragment {
             }
         });
 
+        binding.twittClickParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!IS_TWIT_EXP)
+                    expandAnim(binding.twittExpandParent);
+                else
+                    collapseAnim(binding.twittExpandParent);
+                IS_TWIT_EXP = !IS_TWIT_EXP;
+            }
+        });
+
         binding.instaCheckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,12 +109,20 @@ public class CreateProfInfSocial extends Fragment {
                 verifyYoutube();
             }
         });
+
+        binding.twittCheckBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                verifyTwitter();
+            }
+        });
     }
 
     /* Verification */
-    Boolean IS_INSTA_VERIFIED = false, IS_YOUTUBE_VERIFIED = false;
-    String instaUserName = "", youtubeChannel = "";
+    Boolean IS_INSTA_VERIFIED = false, IS_YOUTUBE_VERIFIED = false,IS_TWITT_VERIFIED = false;
+    String instaUserName = "", youtubeChannel = "", twitterUsername = "";
     void verifyInstaAccount(){
+
         String username = binding.instaUserInp.getText().toString();
         viewModel.verifyInstaAccount(username)
                 .observe(this, new Observer<BasicResponse>() {
@@ -159,13 +178,40 @@ public class CreateProfInfSocial extends Fragment {
     }
 
 
+    void verifyTwitter(){
+        String channelName = binding.twittUserInp.getText().toString();
+        viewModel.verifyTwitterAccount(channelName)
+                .observe(this, new Observer<BasicResponse>() {
+                    @Override
+                    public void onChanged(BasicResponse basicResponse) {
+                        switch (basicResponse.getStatus()){
+                            case "LOADING" :
+                                binding.twittCheckBtn.setVisibility(View.INVISIBLE);
+                                binding.twittCheckBtn.setEnabled(false);
+                                binding.twittProgress.setVisibility(View.VISIBLE);
+                                break;
+                            case"SUCCESS" :
+                                IS_TWITT_VERIFIED = true;
+                                twitterUsername = channelName;
+                                binding.twittCheckBtn.setVisibility(View.VISIBLE);
+                                collapseAnim(binding.twittExpandParent);
+                                binding.profTwittTitle.setText(channelName);
+                                binding.twittAddIcon.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_double_check));
+                                binding.twittCheckBtn.setEnabled(true);
+                                binding.twittProgress.setVisibility(View.INVISIBLE);
+                                break;
+                        }
+                    }
+                });
+    }
+
 
     void gatherData(){
 
 //        if(!IS_INSTA_VERIFIED && !IS_YOUTUBE_VERIFIED){
 //            Toast.makeText(getActivity(), "Provide atleast one social media account", Toast.LENGTH_SHORT).show();return;
 //        }
-        viewModel.setInfProfSocialData(instaUserName,youtubeChannel);
+        viewModel.setInfProfSocialData(instaUserName,youtubeChannel,twitterUsername);
         viewModel.nextPage();
 
     }
@@ -193,7 +239,12 @@ public class CreateProfInfSocial extends Fragment {
             youtubeChannel = influencer.getYoutube();
             binding.profYoutTitle.setText(youtubeChannel);
             binding.youtAddIcon.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_double_check));
-
+        }
+        if(influencer.getTwitter() != null && !influencer.getTwitter().isEmpty()){
+            IS_TWITT_VERIFIED = true;
+            twitterUsername = influencer.getTwitter();
+            binding.profTwittTitle.setText(twitterUsername);
+            binding.twittAddIcon.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_double_check));
         }
     }
 }

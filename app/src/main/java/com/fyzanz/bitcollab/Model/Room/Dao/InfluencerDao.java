@@ -5,7 +5,6 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.fyzanz.bitcollab.Model.Data.FavInfluencer;
 import com.fyzanz.bitcollab.Model.Data.Influencer;
 
 import java.util.List;
@@ -14,14 +13,14 @@ import java.util.List;
 public interface InfluencerDao {
 
     @Query("SELECT * FROM favInfluencers")
-    List<FavInfluencer> getAll();
+    List<Influencer> getAll();
 
     @Query("SELECT * FROM favInfluencers WHERE infId =:infId")
-    FavInfluencer getFavInfById(String infId);
+    Influencer getFavInfById(String infId);
 
     @Insert
-    void insert(FavInfluencer influencers);
+    void insert(Influencer influencers);
 
     @Delete
-    void delete(FavInfluencer user);
+    void delete(Influencer user);
 }

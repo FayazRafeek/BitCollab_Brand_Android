@@ -30,6 +30,7 @@ public class CreateProfileActivity extends AppCompatActivity {
     ActivityCreateProfileBinding binding;
     String userType;
     ProfileViewModel profileViewModel;
+    String type = "CREATE";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,9 +44,27 @@ public class CreateProfileActivity extends AppCompatActivity {
         binding = ActivityCreateProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        if(getIntent().getBooleanExtra("EDIT",false)){
+            type = "EDIT";
+            binding.createProfTitle.setText("Edit Profile");
+            if(userType.equals("BRAND")){
+                profileViewModel.setBrand(AppSingleton.getInstance().getSelectedBrand());
+                profileViewModel.IS_BRAND_BASIC_SET = true;
+                profileViewModel.IS_BRN_CONTACT_SET = true;
+                profileViewModel.IS_BRN_BIO_SET = true;
+            } else {
+                profileViewModel.setInfluencer(AppSingleton.INSTANCE.getSelectedInfluencer());
+                profileViewModel.IS_BASIC_SET = true;
+                profileViewModel.IS_BIO_SET = true;
+                profileViewModel.IS_CONTACT_SET = true;
+                profileViewModel.IS_SOCIAL_SET = true;
+            }
+        }
+
         profileViewModel.getFragPosLive().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
+                Log.d(TAG, "onChanged: CHANGE " + integer);
                 showFragment(integer);
             }
         });
@@ -120,16 +139,16 @@ public class CreateProfileActivity extends AppCompatActivity {
     Fragment getFragment(int pos){
         if(userType.equals("INFLUENCER")){
             switch (pos){
-                case 0 : return new CreateProfInfBasic();
+                case 0 : return new CreateProfInfBasic(type);
                 case 1 : return new CreateProfInfContact();
                 case 2 : return new CreateProfInfSocial();
-                case 3 : return new CreateProfInfAbout();
+                case 3 : return new CreateProfInfAbout(type);
             }
         } else {
             switch (pos){
-                case 0 : return new CreateProfBrnBasic();
+                case 0 : return new CreateProfBrnBasic(type);
                 case 1 : return new CreateProfBrnContact();
-                case 2 : return new CreateProfBrnAbout();
+                case 2 : return new CreateProfBrnAbout(type);
             }
         }
         return null;

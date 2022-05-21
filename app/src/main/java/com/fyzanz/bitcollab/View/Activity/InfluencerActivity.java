@@ -1,5 +1,6 @@
 package com.fyzanz.bitcollab.View.Activity;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -38,7 +39,7 @@ public class InfluencerActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         influencer = AppSingleton.getInstance().getSelectedInfluencer();
         if(influencer != null && influencer.getPalletColor() != null)
-            getWindow().setStatusBarColor(influencer.getPalletColor());
+            getWindow().setStatusBarColor(Integer.valueOf(influencer.getPalletColor()));
          else
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.black));
 
@@ -55,9 +56,27 @@ public class InfluencerActivity extends AppCompatActivity {
         });
 
         userType = AppSingleton.getInstance().getUSER_TYPE();
+        if(userType.equals("INFLUENCER")){
+            binding.infAction.setVisibility(View.GONE);
+        } else binding.infAction.setVisibility(View.VISIBLE);
+
         if(influencer == null) fetchInfluencer();
         else
         setUpUi();
+
+        if(getIntent().getBooleanExtra("PROFILE_VIEW",false)){
+            binding.editBtn.setVisibility(View.VISIBLE);
+        }
+
+        binding.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(InfluencerActivity.this,CreateProfileActivity.class);
+                intent.putExtra("EDIT",true);
+                AppSingleton.getInstance().setSelectedInfluencer(influencer);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -83,20 +102,23 @@ public class InfluencerActivity extends AppCompatActivity {
         String category = catSt.toString();
         binding.infProfCat.setText(category);
 
-        String location = influencer.getState() + "," + influencer.getCountry();
+        String location = influencer.getState() + ", " + influencer.getCountry();
         binding.infProfLocation.setText(location);
 
         binding.infProfBio.setText(influencer.getBio());
 
-        if(influencer.getInstaId() != null){
+        if(influencer.getInstaId() != null && !influencer.getInstaId().isEmpty()){
             binding.instaCardParent.setVisibility(View.VISIBLE);
             binding.instaId.setText("@" + influencer.getInstaId());
-        }
-        if(influencer.getYoutube() != null){
+        } else binding.instaCardParent.setVisibility(View.GONE);
+        if(influencer.getYoutube() != null && !influencer.getYoutube().isEmpty()){
             binding.youtubeCardParent.setVisibility(View.VISIBLE);
             binding.youtubeId.setText(influencer.getYoutube());
-        }
-
+        } else binding.youtubeCardParent.setVisibility(View.GONE);
+        if(influencer.getTwitter() != null && !influencer.getTwitter().isEmpty()){
+            binding.twitterCardParent.setVisibility(View.VISIBLE);
+            binding.twitterId.setText(influencer.getTwitter());
+        } else binding.twitterCardParent.setVisibility(View.GONE);
 
         binding.favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,12 +127,19 @@ public class InfluencerActivity extends AppCompatActivity {
             }
         });
 
-
         IS_FAV = mainViewModel.checkInfInFav(influencer.getInfId());
 
         if (IS_FAV){
             favActiveUi();
         } else favInactiveUi();
+
+
+        binding.collabBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(InfluencerActivity.this, NewCollabRequestActivity.class));
+            }
+        });
 
     }
     Boolean IS_FAV = false;
